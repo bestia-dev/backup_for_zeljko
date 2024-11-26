@@ -4,8 +4,8 @@
 
 [//]: # (auto_cargo_toml_to_md start)
 
-**simple gui backup program tailored for my friend Zeljko**  
-***version: 2024.1126.1404 date: 2024-11-26 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
+**counter GUI with egui**  
+***version: 2024.1126.2042 date: 2024-11-26 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
 
  ![tutorial](https://img.shields.io/badge/tutorial-orange)
  ![egui](https://img.shields.io/badge/egui-orange)
@@ -59,6 +59,52 @@ scp rustdevuser@crustde:/home/rustdevuser/rustprojects/backup_for_zeljko/target/
 # then run in git-bash
 cd ~/rustprojects/backup_for_zeljko
 ./backup_for_zeljko.exe
+```
+
+## Robocopy
+
+Robocopy stands for "Robust copy" in Windows. It is good.  
+First I want to list the files that should be deleted.  
+Then I will parse the output and move these files instead of delete them.  
+In the output I must recognize the files that start with the `destination` folder.
+
+```bash
+robocopy options
+/L :: List only - don't copy, timestamp or delete any files.
+/X :: report all eXtra files, not just those selected.
+/FP :: include Full Pathname of files in the output.
+/NS :: No Size - don't log file sizes.
+/NC :: No Class - don't log file classes.
+/NDL :: No Directory List - don't log directory names.
+
+robocopy d:\aktivne_datoteke d:\backup_1\aktivne_datoteke /MIR /L /X /FP /NS /NC /NDL
+
+The output is terrible to parse:
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows
+-------------------------------------------------------------------------------
+
+  Started : torek, 26. november 2024 11:03:11
+   Source : d:\aktivne_datoteke\
+     Dest : d:\backup_1\aktivne_datoteke\
+
+    Files : *.*
+
+  Options : *.* /X /FP /NS /NC /NDL /L /S /E /DCOPY:DA /COPY:DAT /PURGE /MIR /R:1000000 /W:30
+
+------------------------------------------------------------------------------
+
+                                d:\backup_1\aktivne_datoteke\LF2023-12-15 10-46-45 minja es alta.jpg
+                                d:\aktivne_datoteke\LF2023-12-11 11-07-09 Minja Luciano.jpg
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :         2         0         2         0         0         0
+   Files :         6         1         5         0         0         2
+   Bytes :   31.83 m    9.06 m   22.77 m         0         0    2.70 m
+   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
+   Ended : torek, 26. november 2024 11:03:11
 ```
 
 ## TODO
