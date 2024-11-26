@@ -19,7 +19,9 @@
     "rust-analyzer.showUnlinkedFileNotification": false,
     "cSpell.words": [
         "ackmsgmod",
+        "aktivne",
         "Alla",
+        "arhivirane",
         "bestia",
         "bestiadev",
         "bindgen",
@@ -29,6 +31,7 @@
         "columnsdelimiter",
         "conv",
         "CRUSTDE",
+        "datoteke",
         "deps",
         "divcardmonikermod",
         "divfordebuggingmod",
@@ -39,6 +42,7 @@
         "divplayersandscoresmod",
         "divrulesanddescriptionmod",
         "Dodrio",
+        "eframe",
         "egui",
         "endindex",
         "endregion",
@@ -117,6 +121,7 @@
         "websocketcommunication",
         "websocketmod",
         "websysmod",
+        "zbrisane",
         "zcvf",
         "zdravje",
         "zeljko"

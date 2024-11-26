@@ -20,9 +20,33 @@
 Hashtags: #tutorial #egui #rust #gui  
 My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 
+## Backup
+
+My friend has a laptop with 1TB space for his data.  
+Then a super tiny and extremely fast Samsung T7 Shield 2TB external SSD as primary backup.  
+And then a big old 2TB external HDD as secondary backup. It is so big that it has it's own power.  
+
+The difference in storage size makes the backup tricky. Not impossible, but a notch more complicated that he would like.
+
+I was thinking of using `robocopy` for the backup, but as always it lacks a feature that I would like to have.
+When the files are deleted on the `original` disk I want to save these files on the backup disk for possible recovery later. Robocopy just delete them. I know there exists the windows recycle bin, but I don't want to use that.  
+
+First the program will check what disks are connected. The names of the folders are fixed so I can recognize them easily. There are 3 different backups:
+
+1. from the laptop d:\aktivne_datoteke to e:\backup_1\aktivne_datoteke
+2. from the laptop d:\aktivne_datoteke to f:\backup_2\aktivne_datoteke
+3. from the primary backup e:\backup_1\arhivirane_datoteke to f:\backup_2\arhivirane_datoteke
+
+The files that should be deleted will be moved into a folder named `zbrisane_datoteke_datetime`. This can be reviewed and finally manually delete when not needed any more.
+
+I will use `robocopy` to list the files to be deleted. Then I will parse the output and move these files.
+Then I will use `robocopy` to make a "mirror backup". Sounds easy.
+
 ## GUI for windows
 
-A simple test program that creates a simple GUI for Windows with the crate `egui`.
+My friend is not a computer guy, so I decided that a CLI program in a terminal is not for him. He is comfortable to use GUI programs in Windows.
+
+I will experiment with the crate `egui` to create a super simple GUI program for Windows.
 
 ## Cross compile to windows
 
