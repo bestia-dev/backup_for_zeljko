@@ -1,14 +1,14 @@
+// this app is intended just for Windows
 #![cfg(target_os = "windows")]
 // do not open terminal when executing the program in windows
 #![windows_subsystem = "windows"]
 
-#[cfg(target_os = "windows")]
 fn main() {
-    // scaffolding for log and catch panic
+    // scaffolding for catch panic and log to file
     let _log2 = log2::open("log.txt").size(1 * 1024 * 1024).rotate(3).level("debug").start();
 
     let version: &'static str = env!("CARGO_PKG_VERSION");
-    log::info!("Start app backup_for_zeljko {}", version);
+    log::info!("Start app backup_for_zeljko v{}", version);
 
     // catch panics and write to log.txt
     std::panic::set_hook(Box::new(|info| {
@@ -78,6 +78,9 @@ impl eframe::App for MyApp {
         visuals.override_text_color = Some(egui::Color32::BLACK);
         egui_ctx.set_visuals(visuals);
 
+
+        egui_ctx.all_styles_mut(move |style| style.);
+
         let mut fonts = egui::FontDefinitions::default();
 
         // Install my own font (maybe supporting non-latin characters):
@@ -96,9 +99,9 @@ impl eframe::App for MyApp {
         let my_frame = egui::containers::Frame {
             inner_margin: egui::epaint::Margin {
                 left: 10.,
-                right: 10.,
+                right: 0.,
                 top: 10.,
-                bottom: 10.,
+                bottom: 0.,
             },
             fill: egui::Color32::WHITE,
             ..Default::default()
@@ -116,16 +119,23 @@ impl eframe::App for MyApp {
             ui.label(format!("Original 'arhivirane': {}", self.original_arhivirane_datoteke));
             ui.label(format!("--> Backup 'arhivirane': {}", self.backup_arhivirane_datoteke));
 
-            if ui.button("Start backup").clicked() {
-                if self.backup_is_done == false {
+            if self.backup_is_done == false {
+                let start_button = ui.button("Start backup");
+                if start_button.clicked() {
                     self.backup_is_done = true;
                     self.start_all_backups_on_click();
-                } else {
-                    // dialog backup already done
-                    self.text_to_show.push_str("Backup already finished!\n");
+                }
+            } else {
+                let exit_button = ui.button("Exit program");
+                if exit_button.clicked() {
+                    egui_ctx.send_viewport_cmd(egui::ViewportCommand::Close)
                 }
             }
-            ui.label(self.text_to_show.clone());
+            egui::ScrollArea::vertical()
+                .scroll_bar_visibility(egui::scroll_area::ScrollBarVisibility::AlwaysVisible)
+                .show(ui, |ui| {
+                    ui.label(self.text_to_show.clone());
+                });
         });
     }
 }
@@ -147,6 +157,7 @@ impl MyApp {
         self.files_changed = parse_robocopy_output(output);
         self.count_files_changed += self.files_changed.len();
         self.text_to_show.push_str(&self.files_changed.join("\n"));
+        self.text_to_show.push('\n');
 
         // move the files instead of deleting them
         use chrono::{DateTime, Local};
