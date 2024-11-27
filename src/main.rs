@@ -3,6 +3,8 @@
 // do not open terminal when executing the program in windows
 #![windows_subsystem = "windows"]
 
+use std::{format, vec};
+
 fn main() {
     // scaffolding for catch panic and log to file
     let _log2 = log2::open("log.txt").size(1 * 1024 * 1024).rotate(3).level("debug").start();
@@ -42,11 +44,11 @@ fn main_inner() -> eframe::Result {
 }
 
 struct MyApp {
-    original_aktivne_datoteke: String,
-    backup_1_aktivne_datoteke: String,
-    backup_2_aktivne_datoteke: String,
-    original_arhivirane_datoteke: String,
-    backup_arhivirane_datoteke: String,
+    original_aktivne_datoteke: Option<String>,
+    backup_1_aktivne_datoteke: Option<String>,
+    backup_2_aktivne_datoteke: Option<String>,
+    original_arhivirane_datoteke: Option<String>,
+    backup_arhivirane_datoteke: Option<String>,
     files_changed: Vec<String>,
     backup_is_done: bool,
     count_files_changed: usize,
@@ -55,14 +57,38 @@ struct MyApp {
 
 impl Default for MyApp {
     fn default() -> Self {
-        // TODO: here find dynamically these folders because external drives can have different letters d:, e:, f:
-        // but the folder names will remain fixed
+        /// internal function
+        fn find_exist_folder_in_drives(path_wo_drive_letter: &str) -> Option<String> {
+            let drives_letters = vec!["c", "d", "e", "f", "g", "h", "i", "j", "k"];
+            for x in drives_letters.iter() {
+                let path = format!("{x}{path_wo_drive_letter}");
+                if std::fs::exists(&path).unwrap() {
+                    return Some(path);
+                }
+            }
+            None
+        }
+
+        let original_aktivne_datoteke = r#"d:\aktivne_datoteke"#;
+        let original_aktivne_datoteke = if std::fs::exists(original_aktivne_datoteke).unwrap() {
+            Some(original_aktivne_datoteke.to_string())
+        } else {
+            None
+        };
+
+        // external drives can have different letters d:, e:, f:,...
+        // I need to check where is the foldername I expect
+        let backup_1_aktivne_datoteke = find_exist_folder_in_drives(r#":\backup_1\aktivne_datoteke"#);
+        let backup_2_aktivne_datoteke = find_exist_folder_in_drives(r#":\backup_2\aktivne_datoteke"#);
+        let original_arhivirane_datoteke = find_exist_folder_in_drives(r#":\backup_1\arhivirane_datoteke"#);
+        let backup_arhivirane_datoteke = find_exist_folder_in_drives(r#":\backup_2\arhivirane_datoteke"#);
+
         Self {
-            original_aktivne_datoteke: r#"d:\aktivne_datoteke"#.to_owned(),
-            backup_1_aktivne_datoteke: r#"d:\backup_1\aktivne_datoteke"#.to_owned(),
-            backup_2_aktivne_datoteke: r#"d:\backup_2\aktivne_datoteke"#.to_owned(),
-            original_arhivirane_datoteke: r#"d:\backup_1\arhivirane_datoteke"#.to_owned(),
-            backup_arhivirane_datoteke: r#"d:\backup_2\arhivirane_datoteke"#.to_owned(),
+            original_aktivne_datoteke,
+            backup_1_aktivne_datoteke,
+            backup_2_aktivne_datoteke,
+            original_arhivirane_datoteke,
+            backup_arhivirane_datoteke,
             files_changed: vec![],
             backup_is_done: false,
             count_files_changed: 0,
@@ -88,8 +114,9 @@ impl eframe::App for MyApp {
         let mut fonts = egui::FontDefinitions::default();
         fonts
             .font_data
-            .insert("Roboto-Medium".to_owned(), egui::FontData::from_static(include_bytes!("../fonts/Roboto-Medium.ttf"))); // .ttf and .otf supported
-                                                                                                                            // Put my font first (highest priority):
+            // .ttf and .otf supported
+            .insert("Roboto-Medium".to_owned(), egui::FontData::from_static(include_bytes!("../fonts/Roboto-Medium.ttf")));
+        // Put my font first (highest priority):
         fonts.families.get_mut(&egui::FontFamily::Proportional).unwrap().insert(0, "Roboto-Medium".to_owned());
         // Put my font as last fallback for monospace:
         fonts.families.get_mut(&egui::FontFamily::Monospace).unwrap().push("Roboto-Medium".to_owned());
@@ -129,15 +156,15 @@ impl eframe::App for MyApp {
                         }
                     });
                     ui.label(" ");
-                    ui.label(format!("Original 'aktivne': {}", self.original_aktivne_datoteke));
+                    ui.label(format!("Original 'aktivne': {}", self.original_aktivne_datoteke.clone().unwrap_or("".to_string())));
                     ui.label("First backup:");
-                    ui.label(format!("---> Primary backup 'aktivne': {}", self.backup_1_aktivne_datoteke));
+                    ui.label(format!("---> Primary backup 'aktivne': {}", self.backup_1_aktivne_datoteke.clone().unwrap_or("".to_string())));
                     ui.label("Second backup:");
-                    ui.label(format!("---> Secondary backup 'aktivne': {}", self.backup_2_aktivne_datoteke));
+                    ui.label(format!("---> Secondary backup 'aktivne': {}", self.backup_2_aktivne_datoteke.clone().unwrap_or("".to_string())));
                     ui.label(" ");
-                    ui.label(format!("Original 'arhivirane': {}", self.original_arhivirane_datoteke));
+                    ui.label(format!("Original 'arhivirane': {}", self.original_arhivirane_datoteke.clone().unwrap_or("".to_string())));
                     ui.label("Third backup:");
-                    ui.label(format!("---> Backup 'arhivirane': {}", self.backup_arhivirane_datoteke));
+                    ui.label(format!("---> Backup 'arhivirane': {}", self.backup_arhivirane_datoteke.clone().unwrap_or("".to_string())));
                     ui.label(" ");
                     ui.label(self.text_to_show.clone());
                 });
@@ -148,12 +175,18 @@ impl eframe::App for MyApp {
 impl MyApp {
     fn start_all_backups_on_click(&mut self) {
         // 3 different backups
-        self.text_to_show.push_str("First backup\n");
-        self.backup(self.original_aktivne_datoteke.clone(), self.backup_1_aktivne_datoteke.clone());
-        self.text_to_show.push_str("Second backup\n");
-        self.backup(self.original_aktivne_datoteke.clone(), self.backup_2_aktivne_datoteke.clone());
-        self.text_to_show.push_str("Third backup\n");
-        self.backup(self.original_arhivirane_datoteke.clone(), self.backup_arhivirane_datoteke.clone());
+        if self.original_aktivne_datoteke.is_some() && self.backup_1_aktivne_datoteke.is_some() {
+            self.text_to_show.push_str("First backup\n");
+            self.backup(self.original_aktivne_datoteke.clone().unwrap(), self.backup_1_aktivne_datoteke.clone().unwrap());
+        }
+        if self.original_aktivne_datoteke.is_some() && self.backup_2_aktivne_datoteke.is_some() {
+            self.text_to_show.push_str("Second backup\n");
+            self.backup(self.original_aktivne_datoteke.clone().unwrap(), self.backup_2_aktivne_datoteke.clone().unwrap());
+        }
+        if self.original_arhivirane_datoteke.is_some() && self.backup_arhivirane_datoteke.is_some() {
+            self.text_to_show.push_str("Third backup\n");
+            self.backup(self.original_arhivirane_datoteke.clone().unwrap(), self.backup_arhivirane_datoteke.clone().unwrap());
+        }
         self.text_to_show.push_str(&format!("All files changed after backup: {}\n", self.count_files_changed));
     }
 
