@@ -73,27 +73,26 @@ impl Default for MyApp {
 
 impl eframe::App for MyApp {
     fn update(&mut self, egui_ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        // region: change colors
         let mut visuals = egui::Visuals::light();
         visuals.widgets.active.fg_stroke.color = egui::Color32::BLACK;
         visuals.override_text_color = Some(egui::Color32::BLACK);
         egui_ctx.set_visuals(visuals);
+        // endregion: change colors
 
-
-        egui_ctx.all_styles_mut(move |style| style.);
-
-        let mut fonts = egui::FontDefinitions::default();
+        egui_ctx.all_styles_mut(|style| {
+            style.spacing.scroll = egui::style::ScrollStyle::solid();
+        });
 
         // Install my own font (maybe supporting non-latin characters):
+        let mut fonts = egui::FontDefinitions::default();
         fonts
             .font_data
             .insert("Roboto-Medium".to_owned(), egui::FontData::from_static(include_bytes!("../fonts/Roboto-Medium.ttf"))); // .ttf and .otf supported
-
-        // Put my font first (highest priority):
+                                                                                                                            // Put my font first (highest priority):
         fonts.families.get_mut(&egui::FontFamily::Proportional).unwrap().insert(0, "Roboto-Medium".to_owned());
-
         // Put my font as last fallback for monospace:
         fonts.families.get_mut(&egui::FontFamily::Monospace).unwrap().push("Roboto-Medium".to_owned());
-
         egui_ctx.set_fonts(fonts);
 
         let my_frame = egui::containers::Frame {
@@ -109,31 +108,37 @@ impl eframe::App for MyApp {
 
         egui::CentralPanel::default().frame(my_frame).show(egui_ctx, |ui| {
             egui_ctx.set_pixels_per_point(2.5);
-
-            ui.heading("Backup for Željko");
-            ui.label(" ");
-            ui.label(format!("Original 'aktivne': {}", self.original_aktivne_datoteke));
-            ui.label(format!("--> Primary backup 'aktivne': {}", self.backup_1_aktivne_datoteke));
-            ui.label(format!("--> Secondary backup 'aktivne': {}", self.backup_2_aktivne_datoteke));
-            ui.label(" ");
-            ui.label(format!("Original 'arhivirane': {}", self.original_arhivirane_datoteke));
-            ui.label(format!("--> Backup 'arhivirane': {}", self.backup_arhivirane_datoteke));
-
-            if self.backup_is_done == false {
-                let start_button = ui.button("Start backup");
-                if start_button.clicked() {
-                    self.backup_is_done = true;
-                    self.start_all_backups_on_click();
-                }
-            } else {
-                let exit_button = ui.button("Exit program");
-                if exit_button.clicked() {
-                    egui_ctx.send_viewport_cmd(egui::ViewportCommand::Close)
-                }
-            }
             egui::ScrollArea::vertical()
                 .scroll_bar_visibility(egui::scroll_area::ScrollBarVisibility::AlwaysVisible)
+                .auto_shrink(false)
                 .show(ui, |ui| {
+                    ui.heading("Backup for Željko");
+                    ui.label(" ");
+                    ui.with_layout(egui::Layout::left_to_right(egui::Align::TOP), |ui| {
+                        ui.add_enabled_ui(!self.backup_is_done, |ui| {
+                            let start_button = ui.button("Start backup");
+                            if start_button.clicked() && !self.backup_is_done {
+                                self.backup_is_done = true;
+                                self.start_all_backups_on_click();
+                            }
+                        });
+
+                        let exit_button = ui.button("Exit program");
+                        if exit_button.clicked() {
+                            egui_ctx.send_viewport_cmd(egui::ViewportCommand::Close)
+                        }
+                    });
+                    ui.label(" ");
+                    ui.label(format!("Original 'aktivne': {}", self.original_aktivne_datoteke));
+                    ui.label("First backup:");
+                    ui.label(format!("---> Primary backup 'aktivne': {}", self.backup_1_aktivne_datoteke));
+                    ui.label("Second backup:");
+                    ui.label(format!("---> Secondary backup 'aktivne': {}", self.backup_2_aktivne_datoteke));
+                    ui.label(" ");
+                    ui.label(format!("Original 'arhivirane': {}", self.original_arhivirane_datoteke));
+                    ui.label("Third backup:");
+                    ui.label(format!("---> Backup 'arhivirane': {}", self.backup_arhivirane_datoteke));
+                    ui.label(" ");
                     ui.label(self.text_to_show.clone());
                 });
         });
@@ -177,9 +182,6 @@ impl MyApp {
                 std::fs::rename(x, move_to.clone()).unwrap();
             }
         }
-        // self.files_changed.push("list of debug_vec".to_string());
-        // self.files_changed.append(&mut debug_vec);
-        // self.files_changed.push("end list".to_string());
         command_robocopy_mir(source.clone(), destination.clone());
     }
 }
@@ -238,3 +240,4 @@ fn command_robocopy_mir(source: String, destination: String) -> std::process::Ou
         .expect("failed to execute process");
     output
 }
+// rust_analyzer gives here the error: `main` function not found in crate, but it is not true.
