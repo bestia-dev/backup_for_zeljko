@@ -1,5 +1,7 @@
+// windows only, but then the editor does not show any information anymore
+// #![cfg(windows)]
+// do not open terminal when executing the program in windows
 #![windows_subsystem = "windows"]
-use std::io::BufRead;
 
 use eframe::egui;
 use egui::Color32;
@@ -10,7 +12,7 @@ fn main() -> eframe::Result {
         viewport: egui::ViewportBuilder::default().with_inner_size([900.0, 600.0]),
         ..Default::default()
     };
-    eframe::run_native("backup_for_zeljko", options, Box::new(|_| Ok(Box::<MyApp>::default())))
+    eframe::run_native("Backup for Željko", options, Box::new(|_| Ok(Box::<MyApp>::default())))
 }
 
 struct MyApp {
@@ -71,29 +73,49 @@ impl eframe::App for MyApp {
         };
 
         egui::CentralPanel::default().frame(my_frame).show(egui_ctx, |ui| {
-            egui_ctx.set_pixels_per_point(3.0);
+            egui_ctx.set_pixels_per_point(2.5);
 
             ui.heading("Backup for Željko");
+            ui.label(" ");
             ui.label(format!("Original 'aktivne': {}", self.original_aktivne_datoteke));
-            ui.label(format!("Primary backup 'aktivne': {}", self.backup_1_aktivne_datoteke));
-            ui.label(format!("Secondary backup 'aktivne': {}", self.backup_2_aktivne_datoteke));
+            ui.label(format!("--> Primary backup 'aktivne': {}", self.backup_1_aktivne_datoteke));
+            ui.label(format!("--> Secondary backup 'aktivne': {}", self.backup_2_aktivne_datoteke));
             ui.label(" ");
             ui.label(format!("Original 'arhivirane': {}", self.backup_1_arhivirane_datoteke));
-            ui.label(format!("Backup 'arhivirane': {}", self.backup_2_arhivirane_datoteke));
+            ui.label(format!("--> Backup 'arhivirane': {}", self.backup_2_arhivirane_datoteke));
 
             if ui.button("Start backup").clicked() {
                 self.start_backup_on_click();
             }
 
             let mut str_file = self.files_to_move.concat();
-            ui.text_edit_multiline(&mut str_file);
+            ui.add_sized(ui.available_size(), egui::TextEdit::multiline(&mut str_file));
         });
     }
 }
 
 impl MyApp {
     fn start_backup_on_click(&mut self) {
-        // robocopy list only
+        let output = self.command_robocopy_list_only();
+        // parse
+        // find the third line ------
+        let mut count_del_lines = 0;
+        // import the trait that has .lines()
+        use std::io::BufRead;
+        for x in output.stdout.lines() {
+            let x = x.unwrap();
+            if x.starts_with("-----") {
+                count_del_lines += 1;
+            } else if count_del_lines == 3 && !x.is_empty() {
+                self.files_to_move.push(x);
+            }
+        }
+    }
+
+    /// robocopy list only
+    fn command_robocopy_list_only(&mut self) -> std::process::Output {
+        // I isolated this call into a function because I need some specific windows flags.
+        // That ruins the editor capability to understand what types are used.
         use std::os::windows::process::CommandExt;
         let output = std::process::Command::new("robocopy")
             .args(&[
@@ -107,12 +129,10 @@ impl MyApp {
                 "/NC".to_owned(),
                 "/NDL".to_owned(),
             ])
+            // specific windows flag to not open the terminal window
             .creation_flags(0x08000000)
             .output()
             .expect("failed to execute process");
-        // parse
-        for x in output.stdout.lines() {
-            self.files_to_move.push(x.unwrap());
-        }
+        output
     }
 }

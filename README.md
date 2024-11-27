@@ -5,7 +5,7 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **counter GUI with egui**  
-***version: 2024.1127.1146 date: 2024-11-27 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
+***version: 2024.1127.1226 date: 2024-11-27 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
 
  ![tutorial](https://img.shields.io/badge/tutorial-orange)
  ![egui](https://img.shields.io/badge/egui-orange)
