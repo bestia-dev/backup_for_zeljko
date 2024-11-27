@@ -46,6 +46,7 @@
         "egui",
         "endindex",
         "endregion",
+        "epaint",
         "errormod",
         "fetchmod",
         "flexrow",
@@ -81,6 +82,7 @@
         "qrcode",
         "respbody",
         "rngs",
+        "Roboto",
         "rootrenderingcomponentmod",
         "routerimplmod",
         "routermod",
@@ -124,6 +126,7 @@
         "zbrisane",
         "zcvf",
         "zdravje",
-        "zeljko"
+        "zeljko",
+        "Željko"
     ]
 }
