@@ -4,20 +4,19 @@
 
 #[cfg(target_os = "windows")]
 fn main() {
+    // scaffolding for log and catch panic
     let _log2 = log2::open("log.txt").size(1 * 1024 * 1024).rotate(3).level("debug").start();
 
-    log::info!("Start app backup_for_zeljko");
+    let version: &'static str = env!("CARGO_PKG_VERSION");
+    log::info!("Start app backup_for_zeljko {}", version);
 
+    // catch panics and write to log.txt
     std::panic::set_hook(Box::new(|info| {
         let backtrace = std::backtrace::Backtrace::force_capture();
         handle_panic(info.payload(), backtrace)
     }));
     let _ = std::panic::catch_unwind(|| {
-        let options = eframe::NativeOptions {
-            viewport: egui::ViewportBuilder::default().with_inner_size([900.0, 600.0]),
-            ..Default::default()
-        };
-        eframe::run_native("Backup for Željko", options, Box::new(|_| Ok(Box::<MyApp>::default())))
+        let _ = main_inner();
     });
 }
 
@@ -32,6 +31,14 @@ fn handle_panic(payload: &(dyn std::any::Any + Send), backtrace: std::backtrace:
     }
 
     log::error!("Backtrace: {backtrace:#?}");
+}
+
+fn main_inner() -> eframe::Result {
+    let options = eframe::NativeOptions {
+        viewport: egui::ViewportBuilder::default().with_inner_size([900.0, 600.0]),
+        ..Default::default()
+    };
+    eframe::run_native("Backup for Željko", options, Box::new(|_| Ok(Box::<MyApp>::default())))
 }
 
 struct MyApp {
