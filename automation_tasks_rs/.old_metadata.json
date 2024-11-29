@@ -1,9 +1,8 @@
 {
-  "old_description": "Simple backup program tailored for my friend Željko. Made with rust and egui.",
+  "old_description": "Simple backup program tailored for my friend Željko. Made with rust and iced.",
   "old_keywords": [
-    "obsolete",
     "tutorial",
-    "egui",
+    "iced",
     "rust",
     "gui"
   ]
