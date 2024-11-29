@@ -1,0 +1,20 @@
+[package]
+name = "backup_for_zeljko"
+version = "2024.1129.1908"
+authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
+edition = "2021"
+description = "Simple backup program tailored for my friend Željko. Made with rust and iced."
+repository = "https://github.com/bestia-dev/backup_for_zeljko"
+readme = "README.md"
+license = "MIT"
+keywords = ["tutorial","iced","rust","gui"]
+categories = ["gui"]
+publish = false
+
+[dependencies]
+iced = "0.13.1"
+chrono="0.4.38"
+unwrap="1.2.1"
+log="0.4.22"
+log2 = "0.1.14"
