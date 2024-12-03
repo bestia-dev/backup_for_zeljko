@@ -11,9 +11,11 @@
 // Do not open terminal when executing the program in windows
 #![windows_subsystem = "windows"]
 
-use iced::widget::{container, scrollable, text, Column};
 use std::{format, vec};
 use unwrap::unwrap;
+
+mod gui_helper;
+use gui_helper::*;
 
 static ORIGINAL1: &'static str = r#"original1"#;
 static BACKUP1_OF_ORIGINAL1: &'static str = r#"backup1_of_original1"#;
@@ -126,68 +128,80 @@ impl MyApp {
     }
 
     fn view(&self) -> iced::Element<Message> {
-        // I want to have the sort order of parents and children right
-        // If needed, I will use code blocks to calculate and return the child to the parent.
-        scrollable(container({
-            let mut col = Column::new()
-                .spacing(5)
-                .padding(10)
-                .align_x(iced::Alignment::Center)
-                .width(iced::Length::Fill)
-                .push(text("Backup for Željko").size(30))
-                .push(text("Simple backup program tailored for my friend Željko."))
-                .push(text("Made with rust and iced GUI."))
-                .push(text("https://github.com/bestia-dev/backup_for_zeljko"))
-                .push(text("© bestia.dev 2024 MIT license Open-source and free as a beer"))
-                .push(text("First backup:"));
+        XScrollable::new(
+            XScrollableAttr {
+                width: iced::Length::Fixed(500.0),
+                height: iced::Length::Fixed(600.0),
+                ..Default::default()
+            },
+            iced::widget::container({
+                let mut col = XColumn::new(XColumnAttr {
+                    spacing: 5.0,
+                    padding: 10.0.into(),
+                    align_x: iced::alignment::Horizontal::Center,
+                    width: iced::Length::Fill,
+                });
 
-            if self.original1.is_some() && self.backup1_of_original1.is_some() {
-                col = col.push(text(format!("    {} ---> {}", unwrap!(self.original1.clone()), unwrap!(self.backup1_of_original1.clone()))));
-            } else {
-                if !self.original1.is_some() {
-                    col = col.push(text(format!("    Folder {} does not exist!", ORIGINAL1)));
-                }
-                if !self.backup1_of_original1.is_some() {
-                    col = col.push(text(format!("    Folder {} does not exist!", BACKUP1_OF_ORIGINAL1)));
-                }
-            }
-            col = col.push(text("Second backup:"));
-            if self.original1.is_some() && self.backup2_of_original1.is_some() {
-                col = col.push(text(format!("    {} ---> {}", unwrap!(self.original1.clone()), unwrap!(self.backup2_of_original1.clone()))));
-            } else {
-                if !self.original1.is_some() {
-                    col = col.push(text(format!("    Folder {} does not exist!", ORIGINAL1)));
-                }
-                if !self.backup2_of_original1.is_some() {
-                    col = col.push(text(format!("    Folder {} does not exist!", BACKUP2_OF_ORIGINAL1)));
-                }
-            }
-            col = col.push(text("Third backup:"));
-            if self.original2.is_some() && self.backup_of_original2.is_some() {
-                col = col.push(text(format!("    {} ---> {}", unwrap!(self.original2.clone()), unwrap!(self.backup_of_original2.clone()))));
-            } else {
-                if !self.original2.is_some() {
-                    col = col.push(text(format!("    Folder {} does not exist!", ORIGINAL2)));
-                }
-                if !self.backup_of_original2.is_some() {
-                    col = col.push(text(format!("    Folder {} does not exist!", BACKUP_OF_ORIGINAL2)));
-                }
-            }
-            col = col.push(
-                iced::widget::row![
-                    iced::widget::Button::new("Start backup").on_press(Message::StartBackup),
-                    iced::widget::button("Exit program").on_press(Message::ExitProgram),
-                ]
-                .spacing(30)
-                .padding(iced::Padding::from(5)),
-            );
+                col.push(XText::attr_text(XTextAttr { size: 30.0 }, "Backup for Željko"));
+                col.append(&mut vec![
+                    XText::text("Simple backup program tailored for my friend Željko.").into(),
+                    XText::text("Made with rust and iced GUI.").into(),
+                    XText::text("https://github.com/bestia-dev/backup_for_zeljko").into(),
+                    XText::text("© bestia.dev 2024 MIT license Open-source and free as a beer").into(),
+                    XText::text("First backup:").into(),
+                ]);
 
-            col = col.push(text(self.text_to_show.clone()).align_x(iced::Alignment::Center));
-            // this returns the entire column
-            col
-        }))
-        .width(500)
-        .height(600.0)
+                if self.original1.is_some() && self.backup1_of_original1.is_some() {
+                    col.push(XText::text(format!("    {} ---> {}", unwrap!(self.original1.clone()), unwrap!(self.backup1_of_original1.clone()))));
+                } else {
+                    if !self.original1.is_some() {
+                        col.push(XText::text(format!("    Folder {} does not exist!", ORIGINAL1)));
+                    }
+                    if !self.backup1_of_original1.is_some() {
+                        col.push(XText::text(format!("    Folder {} does not exist!", BACKUP1_OF_ORIGINAL1)));
+                    }
+                }
+                col.push(XText::text("Second backup:"));
+                if self.original1.is_some() && self.backup2_of_original1.is_some() {
+                    col.push(XText::text(format!("    {} ---> {}", unwrap!(self.original1.clone()), unwrap!(self.backup2_of_original1.clone()))));
+                } else {
+                    if !self.original1.is_some() {
+                        col.push(XText::text(format!("    Folder {} does not exist!", ORIGINAL1)));
+                    }
+                    if !self.backup2_of_original1.is_some() {
+                        col.push(XText::text(format!("    Folder {} does not exist!", BACKUP2_OF_ORIGINAL1)));
+                    }
+                }
+                col.push(XText::text("Third backup:"));
+                if self.original2.is_some() && self.backup_of_original2.is_some() {
+                    col.push(XText::text(format!("    {} ---> {}", unwrap!(self.original2.clone()), unwrap!(self.backup_of_original2.clone()))));
+                } else {
+                    if !self.original2.is_some() {
+                        col.push(XText::text(format!("    Folder {} does not exist!", ORIGINAL2)));
+                    }
+                    if !self.backup_of_original2.is_some() {
+                        col.push(XText::text(format!("    Folder {} does not exist!", BACKUP_OF_ORIGINAL2)));
+                    }
+                }
+                col.push({
+                    // I can use blocks to crate an isolated space for more complex code
+                    // Or I could call a function to isolate a gui "component"
+                    let toolbar = iced::widget::row![
+                        iced::widget::Button::new("Start backup").on_press(Message::StartBackup),
+                        iced::widget::button("Exit program").on_press(Message::ExitProgram),
+                    ]
+                    .spacing(30)
+                    .padding(iced::Padding::from(5));
+                    // return
+                    toolbar
+                });
+
+                col.push(XText::text(self.text_to_show.as_str()));
+
+                // return the entire column
+                col.to_iced()
+            }),
+        )
         .into()
     }
 
