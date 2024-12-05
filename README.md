@@ -5,7 +5,7 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **Simple backup program tailored for my friend Željko. Made with rust and iced.**  
-***version: 2024.1203.1334 date: 2024-12-03 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
+***version: 2024.1205.1709 date: 2024-12-05 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
 
  ![tutorial](https://img.shields.io/badge/tutorial-orange)
  ![iced](https://img.shields.io/badge/iced-orange)

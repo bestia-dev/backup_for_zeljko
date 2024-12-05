@@ -1,17 +1,17 @@
 // backup_for_zeljko/src/main.rs
 
 #![doc=include_str!("../README.md")]
-// This app is intended just for Windows
+// This app is intended just for Windows.
 #![cfg(target_os = "windows")]
 // In VSCode settings#![cfg(target_os = "windows")] I needed to set:
 // "rust-analyzer.cargo.target": "x86_64-pc-windows-gnu"
 // to avoid rust-analyzer to show me errors that are Linux specific,
-// because I cross-compile from Linux to Windows.
+// because I cross-compile this program from Linux to Windows.
 
 // Do not open terminal when executing the program in windows
 #![windows_subsystem = "windows"]
 
-use std::{format, vec};
+/// Use unwrap! macro to get the line and column of panics also in release mode.
 use unwrap::unwrap;
 
 mod gui_helper;
@@ -23,7 +23,6 @@ static BACKUP2_OF_ORIGINAL1: &'static str = r#"backup2_of_original1"#;
 static ORIGINAL2: &'static str = r#"original2"#;
 static BACKUP_OF_ORIGINAL2: &'static str = r#"backup_of_original2"#;
 
-#[cfg(target_os = "windows")]
 fn main() {
     // scaffolding for catch panic and log to file
     let _log2 = log2::open("log.txt").size(1 * 1024 * 1024).rotate(3).level("debug").start();
@@ -54,6 +53,8 @@ fn handle_panic(payload: &(dyn std::any::Any + Send), backtrace: std::backtrace:
     log::error!("Backtrace: {backtrace:#?}");
 }
 
+/// The original main() is cluttered with standard app scaffolding.
+/// Here is only code that is app specific.
 fn main_inner() -> iced::Result {
     iced::application("Backup for Željko", MyApp::update, MyApp::view)
         .window(iced::window::Settings {
@@ -63,6 +64,7 @@ fn main_inner() -> iced::Result {
         .run()
 }
 
+/// Messages are basically like user events in the context of "iced".
 #[derive(Debug, Clone, Copy)]
 enum Message {
     StartBackup,
@@ -75,14 +77,23 @@ struct MyApp {
     backup2_of_original1: Option<String>,
     original2: Option<String>,
     backup_of_original2: Option<String>,
+    changing_fields: ChangingFields,
+}
+
+/// Sub-struct to isolate what fields can change,
+/// because of interprocedural-conflicts, keywords: Non-lexical lifetimes (NLL), disjointed capture
+/// <https://smallcultfollowing.com/babysteps/blog/2018/11/01/after-nll-interprocedural-conflicts/>
+/// <https://smallcultfollowing.com/babysteps/blog/2024/06/02/the-borrow-checker-within/>
+struct ChangingFields {
     files_changed: Vec<String>,
     count_files_changed: usize,
     text_to_show: String,
 }
 
 impl Default for MyApp {
+    /// Defaults are better to show intent then the "constructor" new() method.
     fn default() -> Self {
-        /// internal function
+        /// Internal function, because it is called only once and only here.
         fn find_exist_folder_in_drives(path_wo_drive_letter: &str) -> Option<String> {
             let drives_letters = vec!["c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
             for x in drives_letters.iter() {
@@ -94,7 +105,7 @@ impl Default for MyApp {
             None
         }
 
-        // external drives can have different letters d:, e:, f:,...
+        // External drives can have different letters d:, e:, f:,...
         // I need to check where is the foldername I expect. The folder names are fixed.
         let original1 = find_exist_folder_in_drives(ORIGINAL1);
         let backup1_of_original1 = find_exist_folder_in_drives(BACKUP1_OF_ORIGINAL1);
@@ -108,14 +119,18 @@ impl Default for MyApp {
             backup2_of_original1,
             original2,
             backup_of_original2,
-            files_changed: vec![],
-            count_files_changed: 0,
-            text_to_show: "".to_string(),
+            changing_fields: ChangingFields {
+                files_changed: vec![],
+                count_files_changed: 0,
+                text_to_show: "".to_string(),
+            },
         }
     }
 }
 
 impl MyApp {
+    /// Mandatory method for the iced GUI library.
+    /// It is the only place to change app state.
     fn update(&mut self, message: Message) {
         match message {
             Message::StartBackup => {
@@ -126,7 +141,8 @@ impl MyApp {
             }
         }
     }
-
+    /// Mandatory method for the iced GUI library.
+    /// It is the only place to draw the user interface after a change of the app state.
     fn view(&self) -> iced::Element<Message> {
         XScrollable::new(
             XScrollableAttr {
@@ -148,44 +164,46 @@ impl MyApp {
                     XText::text("Made with rust and iced GUI.").into(),
                     XText::text("https://github.com/bestia-dev/backup_for_zeljko").into(),
                     XText::text("© bestia.dev 2024 MIT license Open-source and free as a beer").into(),
-                    XText::text("First backup:").into(),
                 ]);
 
-                if self.original1.is_some() && self.backup1_of_original1.is_some() {
-                    col.push(XText::text(format!("    {} ---> {}", unwrap!(self.original1.clone()), unwrap!(self.backup1_of_original1.clone()))));
+                col.push(XText::text("First backup:"));
+                if let Some(backup1_of_original1) = &self.backup1_of_original1 {
+                    if let Some(original1) = &self.original1 {
+                        col.push(XText::text(format!("    {original1} ---> {backup1_of_original1}")));
+                    } else {
+                        col.push(XText::text(format!("    Folder {ORIGINAL1} does not exist!")));
+                    }
                 } else {
-                    if !self.original1.is_some() {
-                        col.push(XText::text(format!("    Folder {} does not exist!", ORIGINAL1)));
-                    }
-                    if !self.backup1_of_original1.is_some() {
-                        col.push(XText::text(format!("    Folder {} does not exist!", BACKUP1_OF_ORIGINAL1)));
-                    }
+                    col.push(XText::text(format!("    Folder {BACKUP1_OF_ORIGINAL1} does not exist!")));
                 }
                 col.push(XText::text("Second backup:"));
-                if self.original1.is_some() && self.backup2_of_original1.is_some() {
-                    col.push(XText::text(format!("    {} ---> {}", unwrap!(self.original1.clone()), unwrap!(self.backup2_of_original1.clone()))));
+                if let Some(backup2_of_original1) = &self.backup2_of_original1 {
+                    if let Some(original1) = &self.original1 {
+                        col.push(XText::text(format!("    {original1} ---> {backup2_of_original1}")));
+                    } else {
+                        col.push(XText::text(format!("    Folder {ORIGINAL1} does not exist!")));
+                    }
                 } else {
-                    if !self.original1.is_some() {
-                        col.push(XText::text(format!("    Folder {} does not exist!", ORIGINAL1)));
-                    }
-                    if !self.backup2_of_original1.is_some() {
-                        col.push(XText::text(format!("    Folder {} does not exist!", BACKUP2_OF_ORIGINAL1)));
-                    }
+                    col.push(XText::text(format!("    Folder {BACKUP2_OF_ORIGINAL1} does not exist!")));
                 }
+
                 col.push(XText::text("Third backup:"));
-                if self.original2.is_some() && self.backup_of_original2.is_some() {
-                    col.push(XText::text(format!("    {} ---> {}", unwrap!(self.original2.clone()), unwrap!(self.backup_of_original2.clone()))));
+                if let Some(backup_of_original2) = &self.backup_of_original2 {
+                    if let Some(original2) = &self.original2 {
+                        col.push(XText::text(format!("    {original2} ---> {backup_of_original2}")));
+                    } else {
+                        col.push(XText::text(format!("    Folder {ORIGINAL2} does not exist!")));
+                    }
                 } else {
-                    if !self.original2.is_some() {
-                        col.push(XText::text(format!("    Folder {} does not exist!", ORIGINAL2)));
-                    }
-                    if !self.backup_of_original2.is_some() {
-                        col.push(XText::text(format!("    Folder {} does not exist!", BACKUP_OF_ORIGINAL2)));
-                    }
+                    col.push(XText::text(format!("    Folder {BACKUP_OF_ORIGINAL2} does not exist!")));
                 }
+
                 col.push({
-                    // I can use blocks to crate an isolated space for more complex code
-                    // Or I could call a function to isolate a gui "component"
+                    // I can use blocks or block expressions to crate an isolated space for more complex code.
+                    // https://doc.rust-lang.org/reference/expressions/block-expr.html
+                    // It is like calling a function to isolate a gui "component".
+                    // But this way the code is visible here and it is easier to follow.
+                    // In their simple form, closures are very similar to block expressions.
                     let toolbar = iced::widget::row![
                         iced::widget::Button::new("Start backup").on_press(Message::StartBackup),
                         iced::widget::button("Exit program").on_press(Message::ExitProgram),
@@ -196,35 +214,50 @@ impl MyApp {
                     toolbar
                 });
 
-                col.push(XText::text(self.text_to_show.as_str()));
+                col.push(XText::text(self.changing_fields.text_to_show.as_str()));
 
-                // return the entire column
+                // return the entire column converting it to its iced form
                 col.to_iced()
             }),
         )
         .into()
     }
 
+    /// Method that responds to the on click event.
+    /// It starts the 3 different backups.
     fn start_all_backups_on_click(&mut self) {
-        // 3 different backups
-        if self.original1.is_some() && self.backup1_of_original1.is_some() {
-            self.text_to_show.push_str("\nFirst backup\n");
-            self.backup(unwrap!(self.original1.clone()), unwrap!(self.backup1_of_original1.clone()), "first");
+        if let Some(original1) = self.original1.as_mut() {
+            if let Some(backup1_of_original1) = self.backup1_of_original1.as_mut() {
+                self.changing_fields.text_to_show.push_str("\nFirst backup\n");
+                self.changing_fields.backup(original1, backup1_of_original1, "first");
+            }
         }
-        if self.original1.is_some() && self.backup2_of_original1.is_some() {
-            self.text_to_show.push_str("\nSecond backup\n");
-            self.backup(unwrap!(self.original1.clone()), unwrap!(self.backup2_of_original1.clone()), "second");
-        }
-        if self.original2.is_some() && self.backup_of_original2.is_some() {
-            self.text_to_show.push_str("\nThird backup\n");
-            self.backup(unwrap!(self.original2.clone()), unwrap!(self.backup_of_original2.clone()), "third");
-        }
-        self.text_to_show.push_str(&format!("\nAll files changed for backup: {}\n", self.count_files_changed));
-    }
 
-    fn backup(&mut self, source: String, destination: String, backup_number: &str) {
-        let output = command_robocopy_list_only(source.clone(), destination.clone());
-        self.files_changed = parse_robocopy_output(output);
+        if let Some(original1) = self.original1.as_ref() {
+            if let Some(backup2_of_original1) = self.backup2_of_original1.as_ref() {
+                self.changing_fields.text_to_show.push_str("\nSecond backup\n");
+                self.changing_fields.backup(original1, backup2_of_original1, "second");
+            }
+        }
+
+        if let Some(original2) = self.original2.as_ref() {
+            if let Some(backup_of_original2) = self.backup_of_original2.as_ref() {
+                self.changing_fields.text_to_show.push_str("\nThird backup\n");
+                self.changing_fields.backup(original2, backup_of_original2, "third");
+            }
+        }
+        self.changing_fields
+            .text_to_show
+            .push_str(&format!("\nAll files changed for backup: {}\n", self.changing_fields.count_files_changed));
+    }
+}
+
+impl ChangingFields {
+    /// The backup() method uses robocopy. Additionally it saves the deleted and renamed files to a "deleted" folder.
+    /// That way we can revert the changes if we find to be needed. After that the "deleted" folder can be removed forever.
+    fn backup(&mut self, source: &str, destination: &str, backup_number: &str) {
+        let output = Robocopy::command_robocopy_list_only(source, destination);
+        self.files_changed = Robocopy::parse_robocopy_output(output);
         self.count_files_changed += self.files_changed.len();
         self.text_to_show.push_str(&self.files_changed.join("\n"));
         self.text_to_show.push('\n');
@@ -235,7 +268,7 @@ impl MyApp {
         let now_formatted = current_local.format("%Y-%m-%d_%H-%M-%S").to_string();
         // take the "e:\" part of destination to create the new folder
         let deleted_on_backup_folder = format!(r#"{}deleted_or_renamed_on_backup\{now_formatted}_{backup_number}_backup"#, &destination[..3]);
-        log::info!("{deleted_on_backup_folder}");
+        // log::info!("{deleted_on_backup_folder}");
         for x in &self.files_changed {
             // only the destination folder and prepare to move them
             if x.starts_with(&destination) {
@@ -244,64 +277,54 @@ impl MyApp {
                 if !parent_dir.exists() {
                     unwrap!(std::fs::create_dir_all(&parent_dir));
                 }
-                unwrap!(std::fs::rename(x, move_to.clone()));
+                unwrap!(std::fs::rename(x, move_to));
             }
         }
-        command_robocopy_mir(source.clone(), destination.clone());
+        Robocopy::command_robocopy_mir(source, destination);
     }
 }
+/// This struct is needed just to encapsulate robocopy methods.
+/// Often it is easier to structure the code using struct and impl than using modules.
+struct Robocopy {}
+impl Robocopy {
+    /// robocopy list only
+    pub fn command_robocopy_list_only(source: &str, destination: &str) -> std::process::Output {
+        use std::os::windows::process::CommandExt;
+        let output = std::process::Command::new("robocopy")
+            .args(&[source, destination, "/MIR", "/L", "/X", "/FP", "/NS", "/NC", "/NDL"])
+            // specific windows flag to not open the terminal window
+            .creation_flags(0x08000000)
+            .output()
+            .expect("failed to execute process");
+        output
+    }
 
-/// robocopy list only
-fn command_robocopy_list_only(source: String, destination: String) -> std::process::Output {
-    // I isolated this call into a function because I need some specific windows flags.
-    // That ruins the editor capability to understand what types are used.
-    use std::os::windows::process::CommandExt;
-    let output = std::process::Command::new("robocopy")
-        .args(&[
-            source,
-            destination,
-            "/MIR".to_owned(),
-            "/L".to_owned(),
-            "/X".to_owned(),
-            "/FP".to_owned(),
-            "/NS".to_owned(),
-            "/NC".to_owned(),
-            "/NDL".to_owned(),
-        ])
-        // specific windows flag to not open the terminal window
-        .creation_flags(0x08000000)
-        .output()
-        .expect("failed to execute process");
-    output
-}
-
-fn parse_robocopy_output(output: std::process::Output) -> Vec<String> {
-    let mut vec_string: Vec<String> = vec![];
-    // find the third line ------
-    let mut count_del_lines = 0;
-    // import the trait that has .lines()
-    use std::io::BufRead;
-    for x in output.stdout.lines() {
-        let x = unwrap!(x);
-        if x.starts_with("-----") {
-            count_del_lines += 1;
-        } else if count_del_lines == 3 && !x.is_empty() {
-            vec_string.push(x.trim().to_string());
+    pub fn parse_robocopy_output(output: std::process::Output) -> Vec<String> {
+        let mut vec_string: Vec<String> = vec![];
+        // find the third line ------
+        let mut count_del_lines = 0;
+        // import the trait that has .lines()
+        use std::io::BufRead;
+        for x in output.stdout.lines() {
+            let x = unwrap!(x);
+            if x.starts_with("-----") {
+                count_del_lines += 1;
+            } else if count_del_lines == 3 && !x.is_empty() {
+                vec_string.push(x.trim().to_string());
+            }
         }
+        vec_string
     }
-    vec_string
-}
 
-/// robocopy MIR
-fn command_robocopy_mir(source: String, destination: String) -> std::process::Output {
-    // I isolated this call into a function because I need some specific windows flags.
-    // That ruins the editor capability to understand what types are used.
-    use std::os::windows::process::CommandExt;
-    let output = std::process::Command::new("robocopy")
-        .args(&[source, destination, "/MIR".to_owned()])
-        // specific windows flag to not open the terminal window
-        .creation_flags(0x08000000)
-        .output()
-        .expect("failed to execute process");
-    output
+    /// robocopy MIR
+    pub fn command_robocopy_mir(source: &str, destination: &str) -> std::process::Output {
+        use std::os::windows::process::CommandExt;
+        let output = std::process::Command::new("robocopy")
+            .args(&[source, destination, "/MIR"])
+            // specific windows flag to not open the terminal window
+            .creation_flags(0x08000000)
+            .output()
+            .expect("failed to execute process");
+        output
+    }
 }
