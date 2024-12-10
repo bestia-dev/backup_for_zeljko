@@ -226,6 +226,10 @@ impl MyApp {
     /// Method that responds to the on click event.
     /// It starts the 3 different backups.
     fn start_all_backups_on_click(&mut self) {
+
+        self.changing_fields.text_to_show.push_str("\nBackup started. Wait to read disk.\n");
+        // TODO: force view?
+
         if let Some(original1) = self.original1.as_mut() {
             if let Some(backup1_of_original1) = self.backup1_of_original1.as_mut() {
                 self.changing_fields.text_to_show.push_str("\nFirst backup\n");
@@ -270,8 +274,8 @@ impl ChangingFields {
         let deleted_on_backup_folder = format!(r#"{}deleted_or_renamed_on_backup\{now_formatted}_{backup_number}_backup"#, &destination[..3]);
         // log::info!("{deleted_on_backup_folder}");
         for x in &self.files_changed {
-            // only the destination folder and prepare to move them
-            if x.starts_with(&destination) {
+            // only the destination folder and prepare to move them, without folders, only files
+            if x.starts_with(&destination) && !x.ends_with(r#"\"#) {
                 let move_to = x.replace(&destination, &deleted_on_backup_folder);
                 let parent_dir = unwrap!(std::path::Path::new(&move_to).parent());
                 if !parent_dir.exists() {
@@ -285,13 +289,14 @@ impl ChangingFields {
 }
 /// This struct is needed just to encapsulate robocopy methods.
 /// Often it is easier to structure the code using struct and impl than using modules.
+/// robocopy d:\original1 d:\backup1_of_original1 /MIR /L /X /FP /NS /NC /NDL
 struct Robocopy {}
 impl Robocopy {
     /// robocopy list only
     pub fn command_robocopy_list_only(source: &str, destination: &str) -> std::process::Output {
         use std::os::windows::process::CommandExt;
         let output = std::process::Command::new("robocopy")
-            .args(&[source, destination, "/MIR", "/L", "/X", "/FP", "/NS", "/NC", "/NDL"])
+            .args(&[source, destination, "/MIR", "/L", "/X", "/FP", "/NS", "/NC", "/NDL", "/FFT"])
             // specific windows flag to not open the terminal window
             .creation_flags(0x08000000)
             .output()
@@ -320,7 +325,7 @@ impl Robocopy {
     pub fn command_robocopy_mir(source: &str, destination: &str) -> std::process::Output {
         use std::os::windows::process::CommandExt;
         let output = std::process::Command::new("robocopy")
-            .args(&[source, destination, "/MIR"])
+            .args(&[source, destination, "/MIR", "/FFT"])
             // specific windows flag to not open the terminal window
             .creation_flags(0x08000000)
             .output()
