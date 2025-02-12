@@ -8,7 +8,7 @@ description = "Simple backup program tailored for my friend Željko. Made with r
 repository = "https://github.com/bestia-dev/backup_for_zeljko"
 readme = "README.md"
 license = "MIT"
-keywords = ["tutorial","iced","rust","gui"]
+keywords = ["maintained", "ready-for-use", "tutorial","iced","rust","gui"]
 categories = ["gui"]
 publish = false
 
