@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/main.rs`."><title>main.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-492a78a4a87dcc01.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="backup_for_zeljko" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0 (f6e511eec 2024-10-15)" data-channel="1.82.0" data-search-js="search-a99f1315e7cc5121.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-921df33f47b8780c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-3b12f09e550e0385.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/main.rs`."><title>main.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="backup_for_zeljko" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">backup_for_zeljko/</div>main.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -291,22 +292,70 @@
 <a href="#291" id="291">291</a>
 <a href="#292" id="292">292</a>
 <a href="#293" id="293">293</a>
-</pre></div><pre class="rust"><code><span class="comment">// backup_for_zeljko/src/main.rs
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a></pre></div><pre class="rust"><code><span class="comment">// backup_for_zeljko/src/main.rs
 
 </span><span class="attr">#![doc=<span class="macro">include_str!</span>(<span class="string">"../README.md"</span>)]
-</span><span class="comment">// This app is intended just for Windows
+</span><span class="comment">// This app is intended just for Windows.
 </span><span class="attr">#![cfg(target_os = <span class="string">"windows"</span>)]
 </span><span class="comment">// In VSCode settings#![cfg(target_os = "windows")] I needed to set:
 // "rust-analyzer.cargo.target": "x86_64-pc-windows-gnu"
 // to avoid rust-analyzer to show me errors that are Linux specific,
-// because I cross-compile from Linux to Windows.
+// because I cross-compile this program from Linux to Windows.
 
 // Do not open terminal when executing the program in windows
 </span><span class="attr">#![windows_subsystem = <span class="string">"windows"</span>]
 
-</span><span class="kw">use </span>iced::widget::{container, scrollable, text, Column};
-<span class="kw">use </span>std::{format, vec};
-<span class="kw">use </span>unwrap::unwrap;
+</span><span class="doccomment">/// Use unwrap! macro to get the line and column of panics also in release mode.
+</span><span class="kw">use </span>unwrap::unwrap;
+
+<span class="kw">mod </span>gui_helper;
+<span class="kw">use </span>gui_helper::<span class="kw-2">*</span>;
 
 <span class="kw">static </span>ORIGINAL1: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">r#"original1"#</span>;
 <span class="kw">static </span>BACKUP1_OF_ORIGINAL1: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">r#"backup1_of_original1"#</span>;
@@ -314,8 +363,7 @@
 <span class="kw">static </span>ORIGINAL2: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">r#"original2"#</span>;
 <span class="kw">static </span>BACKUP_OF_ORIGINAL2: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = <span class="string">r#"backup_of_original2"#</span>;
 
-<span class="attr">#[cfg(target_os = <span class="string">"windows"</span>)]
-</span><span class="kw">fn </span>main() {
+<span class="kw">fn </span>main() {
     <span class="comment">// scaffolding for catch panic and log to file
     </span><span class="kw">let </span>_log2 = log2::open(<span class="string">"log.txt"</span>).size(<span class="number">1 </span>* <span class="number">1024 </span>* <span class="number">1024</span>).rotate(<span class="number">3</span>).level(<span class="string">"debug"</span>).start();
 
@@ -345,7 +393,9 @@
     <span class="macro">log::error!</span>(<span class="string">"Backtrace: {backtrace:#?}"</span>);
 }
 
-<span class="kw">fn </span>main_inner() -&gt; iced::Result {
+<span class="doccomment">/// The original main() is cluttered with standard app scaffolding.
+/// Here is only code that is app specific.
+</span><span class="kw">fn </span>main_inner() -&gt; iced::Result {
     iced::application(<span class="string">"Backup for Željko"</span>, MyApp::update, MyApp::view)
         .window(iced::window::Settings {
             size: iced::Size::new(<span class="number">500.0</span>, <span class="number">600.0</span>),
@@ -354,7 +404,8 @@
         .run()
 }
 
-<span class="attr">#[derive(Debug, Clone, Copy)]
+<span class="doccomment">/// Messages are basically like user events in the context of "iced".
+</span><span class="attr">#[derive(Debug, Clone, Copy)]
 </span><span class="kw">enum </span>Message {
     StartBackup,
     ExitProgram,
@@ -366,16 +417,27 @@
     backup2_of_original1: <span class="prelude-ty">Option</span>&lt;String&gt;,
     original2: <span class="prelude-ty">Option</span>&lt;String&gt;,
     backup_of_original2: <span class="prelude-ty">Option</span>&lt;String&gt;,
+    changing_fields: ChangingFields,
+}
+
+<span class="doccomment">/// Sub-struct to isolate what fields can change,
+/// because of interprocedural-conflicts, keywords: Non-lexical lifetimes (NLL), disjointed capture
+/// &lt;https://smallcultfollowing.com/babysteps/blog/2018/11/01/after-nll-interprocedural-conflicts/&gt;
+/// &lt;https://smallcultfollowing.com/babysteps/blog/2024/06/02/the-borrow-checker-within/&gt;
+</span><span class="kw">struct </span>ChangingFields {
     files_changed: Vec&lt;String&gt;,
     count_files_changed: usize,
     text_to_show: String,
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>MyApp {
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        <span class="doccomment">/// internal function
+    <span class="doccomment">/// Defaults are better to show intent then the "constructor" new() method.
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="doccomment">/// Internal function, because it is called only once and only here.
         </span><span class="kw">fn </span>find_exist_folder_in_drives(path_wo_drive_letter: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;String&gt; {
-            <span class="kw">let </span>drives_letters = <span class="macro">vec!</span>[<span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"g"</span>, <span class="string">"h"</span>, <span class="string">"i"</span>, <span class="string">"j"</span>, <span class="string">"k"</span>, <span class="string">"l"</span>, <span class="string">"m"</span>, <span class="string">"n"</span>, <span class="string">"o"</span>, <span class="string">"p"</span>, <span class="string">"q"</span>, <span class="string">"r"</span>, <span class="string">"s"</span>, <span class="string">"t"</span>, <span class="string">"u"</span>, <span class="string">"v"</span>, <span class="string">"w"</span>, <span class="string">"x"</span>, <span class="string">"y"</span>, <span class="string">"z"</span>];
+            <span class="kw">let </span>drives_letters = <span class="macro">vec!</span>[
+                <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"g"</span>, <span class="string">"h"</span>, <span class="string">"i"</span>, <span class="string">"j"</span>, <span class="string">"k"</span>, <span class="string">"l"</span>, <span class="string">"m"</span>, <span class="string">"n"</span>, <span class="string">"o"</span>, <span class="string">"p"</span>, <span class="string">"q"</span>, <span class="string">"r"</span>, <span class="string">"s"</span>, <span class="string">"t"</span>, <span class="string">"u"</span>, <span class="string">"v"</span>, <span class="string">"w"</span>, <span class="string">"x"</span>, <span class="string">"y"</span>, <span class="string">"z"</span>,
+            ];
             <span class="kw">for </span>x <span class="kw">in </span>drives_letters.iter() {
                 <span class="kw">let </span>path = <span class="macro">format!</span>(<span class="string">r#"{x}:\{path_wo_drive_letter}"#</span>);
                 <span class="kw">if </span>std::fs::exists(<span class="kw-2">&amp;</span>path).unwrap() {
@@ -385,7 +447,7 @@
             <span class="prelude-val">None
         </span>}
 
-        <span class="comment">// external drives can have different letters d:, e:, f:,...
+        <span class="comment">// External drives can have different letters d:, e:, f:,...
         // I need to check where is the foldername I expect. The folder names are fixed.
         </span><span class="kw">let </span>original1 = find_exist_folder_in_drives(ORIGINAL1);
         <span class="kw">let </span>backup1_of_original1 = find_exist_folder_in_drives(BACKUP1_OF_ORIGINAL1);
@@ -399,15 +461,19 @@
             backup2_of_original1,
             original2,
             backup_of_original2,
-            files_changed: <span class="macro">vec!</span>[],
-            count_files_changed: <span class="number">0</span>,
-            text_to_show: <span class="string">""</span>.to_string(),
+            changing_fields: ChangingFields {
+                files_changed: <span class="macro">vec!</span>[],
+                count_files_changed: <span class="number">0</span>,
+                text_to_show: <span class="string">""</span>.to_string(),
+            },
         }
     }
 }
 
 <span class="kw">impl </span>MyApp {
-    <span class="kw">fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, message: Message) {
+    <span class="doccomment">/// Mandatory method for the iced GUI library.
+    /// It is the only place to change app state.
+    </span><span class="kw">fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, message: Message) {
         <span class="kw">match </span>message {
             Message::StartBackup =&gt; {
                 <span class="self">self</span>.start_all_backups_on_click();
@@ -417,93 +483,127 @@
             }
         }
     }
+    <span class="doccomment">/// Mandatory method for the iced GUI library.
+    /// It is the only place to draw the user interface after a change of the app state.
+    </span><span class="kw">fn </span>view(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; iced::Element&lt;Message&gt; {
+        XScrollable::new(
+            XScrollableAttr {
+                width: iced::Length::Fixed(<span class="number">500.0</span>),
+                height: iced::Length::Fixed(<span class="number">600.0</span>),
+                ..Default::default()
+            },
+            iced::widget::container({
+                <span class="kw">let </span><span class="kw-2">mut </span>col = XColumn::new(XColumnAttr {
+                    spacing: <span class="number">5.0</span>,
+                    padding: <span class="number">10.0</span>.into(),
+                    align_x: iced::alignment::Horizontal::Center,
+                    width: iced::Length::Fill,
+                });
 
-    <span class="kw">fn </span>view(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; iced::Element&lt;Message&gt; {
-        <span class="comment">// I want to have the sort order of parents and children right
-        // If needed, I will use code blocks to calculate and return the child to the parent.
-        </span>scrollable(container({
-            <span class="kw">let </span><span class="kw-2">mut </span>col = Column::new()
-                .spacing(<span class="number">5</span>)
-                .padding(<span class="number">10</span>)
-                .align_x(iced::Alignment::Center)
-                .width(iced::Length::Fill)
-                .push(text(<span class="string">"Backup for Željko"</span>).size(<span class="number">30</span>))
-                .push(text(<span class="string">"Simple backup program tailored for my friend Željko."</span>))
-                .push(text(<span class="string">"Made with rust and iced GUI."</span>))
-                .push(text(<span class="string">"https://github.com/bestia-dev/backup_for_zeljko"</span>))
-                .push(text(<span class="string">"© bestia.dev 2024 MIT license Open-source and free as a beer"</span>))
-                .push(text(<span class="string">"First backup:"</span>));
+                col.push(XText::attr_text(XTextAttr { size: <span class="number">30.0 </span>}, <span class="string">"Backup for Željko"</span>));
+                col.append(<span class="kw-2">&amp;mut </span><span class="macro">vec!</span>[
+                    XText::text(<span class="string">"Simple backup program tailored for my friend Željko."</span>).into(),
+                    XText::text(<span class="string">"Made with rust and iced GUI."</span>).into(),
+                    XText::text(<span class="string">"https://github.com/bestia-dev/backup_for_zeljko"</span>).into(),
+                    XText::text(<span class="string">"© bestia.dev 2024 MIT license Open-source and free as a beer"</span>).into(),
+                ]);
 
-            <span class="kw">if </span><span class="self">self</span>.original1.is_some() &amp;&amp; <span class="self">self</span>.backup1_of_original1.is_some() {
-                col = col.push(text(<span class="macro">format!</span>(<span class="string">"    {} ---&gt; {}"</span>, <span class="macro">unwrap!</span>(<span class="self">self</span>.original1.clone()), <span class="macro">unwrap!</span>(<span class="self">self</span>.backup1_of_original1.clone()))));
-            } <span class="kw">else </span>{
-                <span class="kw">if </span>!<span class="self">self</span>.original1.is_some() {
-                    col = col.push(text(<span class="macro">format!</span>(<span class="string">"    Folder {} does not exist!"</span>, ORIGINAL1)));
+                col.push(XText::text(<span class="string">"First backup:"</span>));
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(backup1_of_original1) = <span class="kw-2">&amp;</span><span class="self">self</span>.backup1_of_original1 {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(original1) = <span class="kw-2">&amp;</span><span class="self">self</span>.original1 {
+                        col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    {original1} ---&gt; {backup1_of_original1}"</span>)));
+                    } <span class="kw">else </span>{
+                        col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    Folder {ORIGINAL1} does not exist!"</span>)));
+                    }
+                } <span class="kw">else </span>{
+                    col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    Folder {BACKUP1_OF_ORIGINAL1} does not exist!"</span>)));
                 }
-                <span class="kw">if </span>!<span class="self">self</span>.backup1_of_original1.is_some() {
-                    col = col.push(text(<span class="macro">format!</span>(<span class="string">"    Folder {} does not exist!"</span>, BACKUP1_OF_ORIGINAL1)));
+                col.push(XText::text(<span class="string">"Second backup:"</span>));
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(backup2_of_original1) = <span class="kw-2">&amp;</span><span class="self">self</span>.backup2_of_original1 {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(original1) = <span class="kw-2">&amp;</span><span class="self">self</span>.original1 {
+                        col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    {original1} ---&gt; {backup2_of_original1}"</span>)));
+                    } <span class="kw">else </span>{
+                        col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    Folder {ORIGINAL1} does not exist!"</span>)));
+                    }
+                } <span class="kw">else </span>{
+                    col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    Folder {BACKUP2_OF_ORIGINAL1} does not exist!"</span>)));
                 }
-            }
-            col = col.push(text(<span class="string">"Second backup:"</span>));
-            <span class="kw">if </span><span class="self">self</span>.original1.is_some() &amp;&amp; <span class="self">self</span>.backup2_of_original1.is_some() {
-                col = col.push(text(<span class="macro">format!</span>(<span class="string">"    {} ---&gt; {}"</span>, <span class="macro">unwrap!</span>(<span class="self">self</span>.original1.clone()), <span class="macro">unwrap!</span>(<span class="self">self</span>.backup2_of_original1.clone()))));
-            } <span class="kw">else </span>{
-                <span class="kw">if </span>!<span class="self">self</span>.original1.is_some() {
-                    col = col.push(text(<span class="macro">format!</span>(<span class="string">"    Folder {} does not exist!"</span>, ORIGINAL1)));
-                }
-                <span class="kw">if </span>!<span class="self">self</span>.backup2_of_original1.is_some() {
-                    col = col.push(text(<span class="macro">format!</span>(<span class="string">"    Folder {} does not exist!"</span>, BACKUP2_OF_ORIGINAL1)));
-                }
-            }
-            col = col.push(text(<span class="string">"Third backup:"</span>));
-            <span class="kw">if </span><span class="self">self</span>.original2.is_some() &amp;&amp; <span class="self">self</span>.backup_of_original2.is_some() {
-                col = col.push(text(<span class="macro">format!</span>(<span class="string">"    {} ---&gt; {}"</span>, <span class="macro">unwrap!</span>(<span class="self">self</span>.original2.clone()), <span class="macro">unwrap!</span>(<span class="self">self</span>.backup_of_original2.clone()))));
-            } <span class="kw">else </span>{
-                <span class="kw">if </span>!<span class="self">self</span>.original2.is_some() {
-                    col = col.push(text(<span class="macro">format!</span>(<span class="string">"    Folder {} does not exist!"</span>, ORIGINAL2)));
-                }
-                <span class="kw">if </span>!<span class="self">self</span>.backup_of_original2.is_some() {
-                    col = col.push(text(<span class="macro">format!</span>(<span class="string">"    Folder {} does not exist!"</span>, BACKUP_OF_ORIGINAL2)));
-                }
-            }
-            col = col.push(
-                <span class="macro">iced::widget::row!</span>[
-                    iced::widget::Button::new(<span class="string">"Start backup"</span>).on_press(Message::StartBackup),
-                    iced::widget::button(<span class="string">"Exit program"</span>).on_press(Message::ExitProgram),
-                ]
-                .spacing(<span class="number">30</span>)
-                .padding(iced::Padding::from(<span class="number">5</span>)),
-            );
 
-            col = col.push(text(<span class="self">self</span>.text_to_show.clone()).align_x(iced::Alignment::Center));
-            <span class="comment">// this returns the entire column
-            </span>col
-        }))
-        .width(<span class="number">500</span>)
-        .height(<span class="number">600.0</span>)
+                col.push(XText::text(<span class="string">"Third backup:"</span>));
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(backup_of_original2) = <span class="kw-2">&amp;</span><span class="self">self</span>.backup_of_original2 {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(original2) = <span class="kw-2">&amp;</span><span class="self">self</span>.original2 {
+                        col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    {original2} ---&gt; {backup_of_original2}"</span>)));
+                    } <span class="kw">else </span>{
+                        col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    Folder {ORIGINAL2} does not exist!"</span>)));
+                    }
+                } <span class="kw">else </span>{
+                    col.push(XText::text(<span class="macro">format!</span>(<span class="string">"    Folder {BACKUP_OF_ORIGINAL2} does not exist!"</span>)));
+                }
+
+                col.push({
+                    <span class="comment">// I can use blocks or block expressions to crate an isolated space for more complex code.
+                    // https://doc.rust-lang.org/reference/expressions/block-expr.html
+                    // It is like calling a function to isolate a gui "component".
+                    // But this way the code is visible here and it is easier to follow.
+                    // In their simple form, closures are very similar to block expressions.
+                    </span><span class="kw">let </span>toolbar = <span class="macro">iced::widget::row!</span>[
+                        iced::widget::Button::new(<span class="string">"Start backup"</span>).on_press(Message::StartBackup),
+                        iced::widget::button(<span class="string">"Exit program"</span>).on_press(Message::ExitProgram),
+                    ]
+                    .spacing(<span class="number">30</span>)
+                    .padding(iced::Padding::from(<span class="number">5</span>));
+                    <span class="comment">// return
+                    </span>toolbar
+                });
+
+                col.push(XText::text(<span class="self">self</span>.changing_fields.text_to_show.as_str()));
+
+                <span class="comment">// return the entire column converting it to its iced form
+                </span>col.to_iced()
+            }),
+        )
         .into()
     }
 
-    <span class="kw">fn </span>start_all_backups_on_click(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="comment">// 3 different backups
-        </span><span class="kw">if </span><span class="self">self</span>.original1.is_some() &amp;&amp; <span class="self">self</span>.backup1_of_original1.is_some() {
-            <span class="self">self</span>.text_to_show.push_str(<span class="string">"\nFirst backup\n"</span>);
-            <span class="self">self</span>.backup(<span class="macro">unwrap!</span>(<span class="self">self</span>.original1.clone()), <span class="macro">unwrap!</span>(<span class="self">self</span>.backup1_of_original1.clone()), <span class="string">"first"</span>);
-        }
-        <span class="kw">if </span><span class="self">self</span>.original1.is_some() &amp;&amp; <span class="self">self</span>.backup2_of_original1.is_some() {
-            <span class="self">self</span>.text_to_show.push_str(<span class="string">"\nSecond backup\n"</span>);
-            <span class="self">self</span>.backup(<span class="macro">unwrap!</span>(<span class="self">self</span>.original1.clone()), <span class="macro">unwrap!</span>(<span class="self">self</span>.backup2_of_original1.clone()), <span class="string">"second"</span>);
-        }
-        <span class="kw">if </span><span class="self">self</span>.original2.is_some() &amp;&amp; <span class="self">self</span>.backup_of_original2.is_some() {
-            <span class="self">self</span>.text_to_show.push_str(<span class="string">"\nThird backup\n"</span>);
-            <span class="self">self</span>.backup(<span class="macro">unwrap!</span>(<span class="self">self</span>.original2.clone()), <span class="macro">unwrap!</span>(<span class="self">self</span>.backup_of_original2.clone()), <span class="string">"third"</span>);
-        }
-        <span class="self">self</span>.text_to_show.push_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">"\nAll files changed for backup: {}\n"</span>, <span class="self">self</span>.count_files_changed));
-    }
+    <span class="doccomment">/// Method that responds to the on click event.
+    /// It starts the 3 different backups.
+    </span><span class="kw">fn </span>start_all_backups_on_click(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.changing_fields.text_to_show.push_str(<span class="string">"\nBackup started. Wait to read disk.\n"</span>);
+        <span class="comment">// TODO: force view?
 
-    <span class="kw">fn </span>backup(<span class="kw-2">&amp;mut </span><span class="self">self</span>, source: String, destination: String, backup_number: <span class="kw-2">&amp;</span>str) {
-        <span class="kw">let </span>output = command_robocopy_list_only(source.clone(), destination.clone());
-        <span class="self">self</span>.files_changed = parse_robocopy_output(output);
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(original1) = <span class="self">self</span>.original1.as_mut() {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(backup1_of_original1) = <span class="self">self</span>.backup1_of_original1.as_mut() {
+                <span class="self">self</span>.changing_fields.text_to_show.push_str(<span class="string">"\nFirst backup\n"</span>);
+                <span class="self">self</span>.changing_fields.backup(original1, backup1_of_original1, <span class="string">"first"</span>);
+            }
+        }
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(original1) = <span class="self">self</span>.original1.as_ref() {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(backup2_of_original1) = <span class="self">self</span>.backup2_of_original1.as_ref() {
+                <span class="self">self</span>.changing_fields.text_to_show.push_str(<span class="string">"\nSecond backup\n"</span>);
+                <span class="self">self</span>.changing_fields.backup(original1, backup2_of_original1, <span class="string">"second"</span>);
+            }
+        }
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(original2) = <span class="self">self</span>.original2.as_ref() {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(backup_of_original2) = <span class="self">self</span>.backup_of_original2.as_ref() {
+                <span class="self">self</span>.changing_fields.text_to_show.push_str(<span class="string">"\nThird backup\n"</span>);
+                <span class="self">self</span>.changing_fields.backup(original2, backup_of_original2, <span class="string">"third"</span>);
+            }
+        }
+        <span class="self">self</span>.changing_fields.text_to_show.push_str(<span class="kw-2">&amp;</span><span class="macro">format!</span>(
+            <span class="string">"\nAll files changed for backup: {}\n"</span>,
+            <span class="self">self</span>.changing_fields.count_files_changed
+        ));
+    }
+}
+
+<span class="kw">impl </span>ChangingFields {
+    <span class="doccomment">/// The backup() method uses robocopy. Additionally it saves the deleted and renamed files to a "deleted" folder.
+    /// That way we can revert the changes if we find to be needed. After that the "deleted" folder can be removed forever.
+    </span><span class="kw">fn </span>backup(<span class="kw-2">&amp;mut </span><span class="self">self</span>, source: <span class="kw-2">&amp;</span>str, destination: <span class="kw-2">&amp;</span>str, backup_number: <span class="kw-2">&amp;</span>str) {
+        <span class="kw">let </span>output = Robocopy::command_robocopy_list_only(source, destination);
+        <span class="self">self</span>.files_changed = Robocopy::parse_robocopy_output(output);
         <span class="self">self</span>.count_files_changed += <span class="self">self</span>.files_changed.len();
         <span class="self">self</span>.text_to_show.push_str(<span class="kw-2">&amp;</span><span class="self">self</span>.files_changed.join(<span class="string">"\n"</span>));
         <span class="self">self</span>.text_to_show.push(<span class="string">'\n'</span>);
@@ -513,75 +613,69 @@
         <span class="kw">let </span>current_local: DateTime&lt;Local&gt; = Local::now();
         <span class="kw">let </span>now_formatted = current_local.format(<span class="string">"%Y-%m-%d_%H-%M-%S"</span>).to_string();
         <span class="comment">// take the "e:\" part of destination to create the new folder
-        </span><span class="kw">let </span>deleted_on_backup_folder = <span class="macro">format!</span>(<span class="string">r#"{}deleted_or_renamed_on_backup\{now_formatted}_{backup_number}_backup"#</span>, <span class="kw-2">&amp;</span>destination[..<span class="number">3</span>]);
-        <span class="macro">log::info!</span>(<span class="string">"{deleted_on_backup_folder}"</span>);
-        <span class="kw">for </span>x <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.files_changed {
-            <span class="comment">// only the destination folder and prepare to move them
-            </span><span class="kw">if </span>x.starts_with(<span class="kw-2">&amp;</span>destination) {
+        </span><span class="kw">let </span>deleted_on_backup_folder = <span class="macro">format!</span>(
+            <span class="string">r#"{}deleted_or_renamed_on_backup\{now_formatted}_{backup_number}_backup"#</span>,
+            <span class="kw-2">&amp;</span>destination[..<span class="number">3</span>]
+        );
+        <span class="comment">// log::info!("{deleted_on_backup_folder}");
+        </span><span class="kw">for </span>x <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.files_changed {
+            <span class="comment">// only the destination folder and prepare to move them, without folders, only files
+            </span><span class="kw">if </span>x.starts_with(<span class="kw-2">&amp;</span>destination) &amp;&amp; !x.ends_with(<span class="string">r#"\"#</span>) {
                 <span class="kw">let </span>move_to = x.replace(<span class="kw-2">&amp;</span>destination, <span class="kw-2">&amp;</span>deleted_on_backup_folder);
                 <span class="kw">let </span>parent_dir = <span class="macro">unwrap!</span>(std::path::Path::new(<span class="kw-2">&amp;</span>move_to).parent());
                 <span class="kw">if </span>!parent_dir.exists() {
                     <span class="macro">unwrap!</span>(std::fs::create_dir_all(<span class="kw-2">&amp;</span>parent_dir));
                 }
-                <span class="macro">unwrap!</span>(std::fs::rename(x, move_to.clone()));
+                <span class="macro">unwrap!</span>(std::fs::rename(x, move_to));
             }
         }
-        command_robocopy_mir(source.clone(), destination.clone());
+        Robocopy::command_robocopy_mir(source, destination);
     }
 }
+<span class="doccomment">/// This struct is needed just to encapsulate robocopy methods.
+/// Often it is easier to structure the code using struct and impl than using modules.
+/// robocopy d:\original1 d:\backup1_of_original1 /MIR /L /X /FP /NS /NC /NDL
+</span><span class="kw">struct </span>Robocopy {}
+<span class="kw">impl </span>Robocopy {
+    <span class="doccomment">/// robocopy list only
+    </span><span class="kw">pub fn </span>command_robocopy_list_only(source: <span class="kw-2">&amp;</span>str, destination: <span class="kw-2">&amp;</span>str) -&gt; std::process::Output {
+        <span class="kw">use </span>std::os::windows::process::CommandExt;
+        <span class="kw">let </span>output = std::process::Command::new(<span class="string">"robocopy"</span>)
+            .args(<span class="kw-2">&amp;</span>[source, destination, <span class="string">"/MIR"</span>, <span class="string">"/L"</span>, <span class="string">"/X"</span>, <span class="string">"/FP"</span>, <span class="string">"/NS"</span>, <span class="string">"/NC"</span>, <span class="string">"/NDL"</span>, <span class="string">"/FFT"</span>])
+            <span class="comment">// specific windows flag to not open the terminal window
+            </span>.creation_flags(<span class="number">0x08000000</span>)
+            .output()
+            .expect(<span class="string">"failed to execute process"</span>);
+        output
+    }
 
-<span class="doccomment">/// robocopy list only
-</span><span class="kw">fn </span>command_robocopy_list_only(source: String, destination: String) -&gt; std::process::Output {
-    <span class="comment">// I isolated this call into a function because I need some specific windows flags.
-    // That ruins the editor capability to understand what types are used.
-    </span><span class="kw">use </span>std::os::windows::process::CommandExt;
-    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"robocopy"</span>)
-        .args(<span class="kw-2">&amp;</span>[
-            source,
-            destination,
-            <span class="string">"/MIR"</span>.to_owned(),
-            <span class="string">"/L"</span>.to_owned(),
-            <span class="string">"/X"</span>.to_owned(),
-            <span class="string">"/FP"</span>.to_owned(),
-            <span class="string">"/NS"</span>.to_owned(),
-            <span class="string">"/NC"</span>.to_owned(),
-            <span class="string">"/NDL"</span>.to_owned(),
-        ])
-        <span class="comment">// specific windows flag to not open the terminal window
-        </span>.creation_flags(<span class="number">0x08000000</span>)
-        .output()
-        .expect(<span class="string">"failed to execute process"</span>);
-    output
-}
-
-<span class="kw">fn </span>parse_robocopy_output(output: std::process::Output) -&gt; Vec&lt;String&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>vec_string: Vec&lt;String&gt; = <span class="macro">vec!</span>[];
-    <span class="comment">// find the third line ------
-    </span><span class="kw">let </span><span class="kw-2">mut </span>count_del_lines = <span class="number">0</span>;
-    <span class="comment">// import the trait that has .lines()
-    </span><span class="kw">use </span>std::io::BufRead;
-    <span class="kw">for </span>x <span class="kw">in </span>output.stdout.lines() {
-        <span class="kw">let </span>x = <span class="macro">unwrap!</span>(x);
-        <span class="kw">if </span>x.starts_with(<span class="string">"-----"</span>) {
-            count_del_lines += <span class="number">1</span>;
-        } <span class="kw">else if </span>count_del_lines == <span class="number">3 </span>&amp;&amp; !x.is_empty() {
-            vec_string.push(x.trim().to_string());
+    <span class="kw">pub fn </span>parse_robocopy_output(output: std::process::Output) -&gt; Vec&lt;String&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>vec_string: Vec&lt;String&gt; = <span class="macro">vec!</span>[];
+        <span class="comment">// find the third line ------
+        </span><span class="kw">let </span><span class="kw-2">mut </span>count_del_lines = <span class="number">0</span>;
+        <span class="comment">// import the trait that has .lines()
+        </span><span class="kw">use </span>std::io::BufRead;
+        <span class="kw">for </span>x <span class="kw">in </span>output.stdout.lines() {
+            <span class="kw">let </span>x = <span class="macro">unwrap!</span>(x);
+            <span class="kw">if </span>x.starts_with(<span class="string">"-----"</span>) {
+                count_del_lines += <span class="number">1</span>;
+            } <span class="kw">else if </span>count_del_lines == <span class="number">3 </span>&amp;&amp; !x.is_empty() {
+                vec_string.push(x.trim().to_string());
+            }
         }
+        vec_string
     }
-    vec_string
-}
 
-<span class="doccomment">/// robocopy MIR
-</span><span class="kw">fn </span>command_robocopy_mir(source: String, destination: String) -&gt; std::process::Output {
-    <span class="comment">// I isolated this call into a function because I need some specific windows flags.
-    // That ruins the editor capability to understand what types are used.
-    </span><span class="kw">use </span>std::os::windows::process::CommandExt;
-    <span class="kw">let </span>output = std::process::Command::new(<span class="string">"robocopy"</span>)
-        .args(<span class="kw-2">&amp;</span>[source, destination, <span class="string">"/MIR"</span>.to_owned()])
-        <span class="comment">// specific windows flag to not open the terminal window
-        </span>.creation_flags(<span class="number">0x08000000</span>)
-        .output()
-        .expect(<span class="string">"failed to execute process"</span>);
-    output
+    <span class="doccomment">/// robocopy MIR
+    </span><span class="kw">pub fn </span>command_robocopy_mir(source: <span class="kw-2">&amp;</span>str, destination: <span class="kw-2">&amp;</span>str) -&gt; std::process::Output {
+        <span class="kw">use </span>std::os::windows::process::CommandExt;
+        <span class="kw">let </span>output = std::process::Command::new(<span class="string">"robocopy"</span>)
+            .args(<span class="kw-2">&amp;</span>[source, destination, <span class="string">"/MIR"</span>, <span class="string">"/FFT"</span>])
+            <span class="comment">// specific windows flag to not open the terminal window
+            </span>.creation_flags(<span class="number">0x08000000</span>)
+            .output()
+            .expect(<span class="string">"failed to execute process"</span>);
+        output
+    }
 }
 </code></pre></div></section></main></body></html>

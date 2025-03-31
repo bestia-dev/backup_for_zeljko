@@ -1,49 +1,57 @@
 ./docs/help.html
 Document: "2" is not a file!
 
-line 1 column 2454 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2454 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2470 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 1796 - Warning: trimming empty <button>
+line 1 column 2326 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2326 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2342 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 1684 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
 ./docs/settings.html
 Document: "2" is not a file!
 
-line 1 column 2456 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2456 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2472 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 1794 - Warning: trimming empty <button>
+line 1 column 2328 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2328 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2344 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 1682 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
 ./docs/src/backup_for_zeljko/main.rs.html
 Document: "2" is not a file!
 
-line 1 column 2076 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2076 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2092 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 1956 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 1956 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 1972 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2062 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2105 - Warning: discarding unexpected </div>
+line 1 column 2123 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2123 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2140 - Warning: discarding unexpected </rustdoc-toolbar>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
 ./docs/backup_for_zeljko/all.html
 Document: "2" is not a file!
 
-line 1 column 2197 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2197 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2213 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 1839 - Warning: trimming empty <button>
+line 1 column 2115 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2115 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2131 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 1727 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
 ./docs/backup_for_zeljko/index.html
 Document: "2" is not a file!
 
-line 1 column 2299 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2299 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2315 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 1862 - Warning: trimming empty <button>
+line 1 column 2830 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2830 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2846 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3059 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3059 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3076 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1750 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
