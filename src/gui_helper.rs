@@ -103,7 +103,13 @@ impl Default for XScrollableAttr {
 }
 
 impl<'a> XScrollable {
-    pub fn new(attr: XScrollableAttr, content: impl Into<iced::Element<'a, crate::Message>>) -> iced::widget::Scrollable<'a, crate::Message> {
-        iced::widget::scrollable(content).direction(attr.direction).width(attr.width).height(attr.height)
+    pub fn new(
+        attr: XScrollableAttr,
+        content: impl Into<iced::Element<'a, crate::Message>>,
+    ) -> iced::widget::Scrollable<'a, crate::Message> {
+        iced::widget::scrollable(content)
+            .direction(attr.direction)
+            .width(attr.width)
+            .height(attr.height)
     }
 }

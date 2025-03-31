@@ -95,7 +95,9 @@ impl Default for MyApp {
     fn default() -> Self {
         /// Internal function, because it is called only once and only here.
         fn find_exist_folder_in_drives(path_wo_drive_letter: &str) -> Option<String> {
-            let drives_letters = vec!["c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+            let drives_letters = vec![
+                "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+            ];
             for x in drives_letters.iter() {
                 let path = format!(r#"{x}:\{path_wo_drive_letter}"#);
                 if std::fs::exists(&path).unwrap() {
@@ -226,7 +228,6 @@ impl MyApp {
     /// Method that responds to the on click event.
     /// It starts the 3 different backups.
     fn start_all_backups_on_click(&mut self) {
-
         self.changing_fields.text_to_show.push_str("\nBackup started. Wait to read disk.\n");
         // TODO: force view?
 
@@ -250,9 +251,10 @@ impl MyApp {
                 self.changing_fields.backup(original2, backup_of_original2, "third");
             }
         }
-        self.changing_fields
-            .text_to_show
-            .push_str(&format!("\nAll files changed for backup: {}\n", self.changing_fields.count_files_changed));
+        self.changing_fields.text_to_show.push_str(&format!(
+            "\nAll files changed for backup: {}\n",
+            self.changing_fields.count_files_changed
+        ));
     }
 }
 
@@ -271,7 +273,10 @@ impl ChangingFields {
         let current_local: DateTime<Local> = Local::now();
         let now_formatted = current_local.format("%Y-%m-%d_%H-%M-%S").to_string();
         // take the "e:\" part of destination to create the new folder
-        let deleted_on_backup_folder = format!(r#"{}deleted_or_renamed_on_backup\{now_formatted}_{backup_number}_backup"#, &destination[..3]);
+        let deleted_on_backup_folder = format!(
+            r#"{}deleted_or_renamed_on_backup\{now_formatted}_{backup_number}_backup"#,
+            &destination[..3]
+        );
         // log::info!("{deleted_on_backup_folder}");
         for x in &self.files_changed {
             // only the destination folder and prepare to move them, without folders, only files
