@@ -33,12 +33,16 @@ pub fn tracing_init() {
     // Unset the environment variable RUST_LOG
     // unset RUST_LOG
     let filter = tracing_subscriber::EnvFilter::from_default_env()
-        .add_directive("hyper_util=error".parse().unwrap_or_else(|e| panic!("{e}")))
-        .add_directive("reqwest=error".parse().unwrap_or_else(|e| panic!("{e}")));
+        .add_directive("iced=error".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("wgpu_core=error".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("iced_wgpu=error".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("iced_winit=error".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("wgpu_hal=error".parse().unwrap_or_else(|e| panic!("{e}")))
+;
 
     tracing_subscriber::fmt()
         .with_file(true)
-        .with_max_level(tracing::Level::DEBUG)
+        .with_max_level(tracing::Level::INFO)
         .with_timer(timer)
         .with_line_number(true)
         .with_ansi(false)
@@ -61,14 +65,14 @@ pub fn panic_set_hook(panic_info: &std::panic::PanicHookInfo) {
         string_message.push_str(message);
     }
 
-    tracing::debug!("{string_message}");
+    tracing::error!("{string_message}");
     eprintln!("{string_message}");
 
     if !string_message.contains("Exiting...") {
         let file = panic_info.location().unwrap().file();
         let line = panic_info.location().unwrap().line();
         let column = panic_info.location().unwrap().column();
-        tracing::debug!("Location: {file}:{line}:{column}");
+        tracing::error!("Location: {file}:{line}:{column}");
         eprintln!("Location: {file}:{line}:{column}");
     }
 }

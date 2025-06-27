@@ -6,7 +6,7 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **Simple backup program tailored for my friend Željko. Made with rust and iced.**  
-***version: 2025.331.1411 date: 2025-03-31 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
+***version: 2025.627.1502 date: 2025-06-27 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
 
  ![maintained](https://img.shields.io/badge/maintained-green)
  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
@@ -23,33 +23,53 @@
 Hashtags: #tutorial #iced #rust #gui  
 My projects on GitHub are more like a tutorial than a finished product: [bestia-dev tutorials](https://github.com/bestia-dev/tutorials_rust_wasm).
 
+## Storage
+
+My friend needs to store about 1,5TB of files, mostly photos.
+He has 2 laptops with little storage on the internal SSD. We could never use the internal storage to store all of his files. We can use the internal SSD just for "temporary working copies" of some of the files. Eventually we must store the files to a persistent storage.
+
+2TB should be enough to store all his files.  
+He bought a 2TB super tiny and extremely fast Samsung T7 Shield external SSD. This will be the main persistent storage of his "original files".  
+He has also a 2TB old external HDD as the backup drive.  
+
+## Original location
+
+To avoid any confusion, files and folder must have one and only one "original location".  If anything happens, we know where to find our "original files". The fast external SSD is great for that. This will be the persistent storage of all his "original files".
+
+For some projects it is best to work directly with the "original files". For example when renaming photos and folders.
+
+## Temporary working copy
+
+When working on a project with many small files, first copy the "original files" from the external SSD into the internal "temporary working copy" folder.  
+
+Work for some time on that files.  
+
+When a part of the project is finished, copy the files to their "original location". That can be done manually with great control. Do this often and with confidence. The "original" will survive, all the rest is just temporary.
+
+When the project is finished and all the files are copied into "original location" you do not needed the "temporary working files" any more. Delete these files from the "temporary working copy" to avoid any confusion later. The location of the "originals files" must be always in the same place: the external SSD.
+
 ## Backup
 
-My friend has a laptop with 1TB space for his data.  
-Then a super tiny and extremely fast Samsung T7 Shield 2TB external SSD as primary backup.  
-And then a big old 2TB external HDD as secondary backup. It is so big that it has it's own power.  
+In the computer world anything can stop working in a second without any warning signs. I witnessed people loosing all their files because a hard disk died. I saw them cry.
 
-The difference in storage size makes the backup tricky. Not impossible, but a notch more complicated that he would like.
+We must always have a backup of the files. It is tedious and it looks superfluous until the disaster strikes.
 
-I was thinking of using `robocopy` for the backup, but as always it lacks a feature that I would like to have.
-When the files are deleted on the `original` disk I want to save these files on the backup disk for possible recovery later. Robocopy just delete them. I know there exists the windows recycle bin, but I don't want to use that.  
+I will use `robocopy` to make the backup or mirror from the external SSD to the old external HDD.
 
-First the program will check what disks are connected. The names of the folders are fixed so I can recognize them easily. There are 3 different backups:
-
-1. from the laptop d:\original1 to e:\backup1_of_original1
-2. from the laptop d:\original1 to f:\backup2_of_original1
-3. from the primary backup e:\original2 to f:\backup_of_original2
-
-The files that should be deleted will be moved into a folder named `deleted_on_backup_datetime`. This can be reviewed and finally manually delete when not needed any more.
-
-I will use `robocopy` to list the files to be deleted. Then I will parse the output and move these files.
-Then I will use `robocopy` to make a "mirror backup". Sounds easy.
+Never change manually the files on the backup HDD. Only use the robocopy command.
 
 ## GUI for windows
 
 My friend is not a computer guy, so I decided that a CLI program in a terminal is not for him. He is comfortable to use GUI programs in Windows.
 
 I will use the crate `iced` to create a simple GUI program for Windows. It is "retained mode GUI".
+
+First the program will check what disks are connected. The names of the folders are fixed so I can recognize them easily. The letters of the external disks can get mounted differently, therefore there is an exploration phase.
+
+1. x:\original_1
+2. y:\backup_of_original_1
+
+I will use `robocopy` to make a "mirror backup". Sounds easy.
 
 ## Cross compile to windows
 
@@ -60,57 +80,29 @@ I use `cargo-auto` for automation of the build process and to commit to GitHub. 
 Copy the exe file from the container 'crustde' to win folder. Run in windows git-bash:
 
 ```bash
-scp rustdevuser@crustde:/home/rustdevuser/rustprojects/backup_for_zeljko/target/x86_64-pc-windows-gnu/release/backup_for_zeljko.exe /c/Users/Luciano/rustprojects/backup_for_zeljko/
+mkdir -p ~/git-bash/rustprojects/backup_for_zeljko
+cd ~/git-bash/rustprojects/backup_for_zeljko
+scp rustdevuser@crustde:/home/rustdevuser/rustprojects/backup_for_zeljko/target/x86_64-pc-windows-gnu/release/backup_for_zeljko.exe /c/Users/Luciano/git-bash/rustprojects/backup_for_zeljko/
 
 # then run in git-bash
-cd ~/rustprojects/backup_for_zeljko
 ./backup_for_zeljko.exe
 ```
 
 ## Robocopy
 
 Robocopy stands for "Robust copy" in Windows. It is good.  
-First I want to list the files that should be deleted.  
-Then I will parse the output and move these files instead of delete them.  
-In the output I must recognize the files that start with the `destination` folder.
+
 
 ```bash
 robocopy options
-/L :: List only - don't copy, timestamp or delete any files.
 /X :: report all eXtra files, not just those selected.
 /FP :: include Full Pathname of files in the output.
 /NS :: No Size - don't log file sizes.
 /NC :: No Class - don't log file classes.
 /NDL :: No Directory List - don't log directory names.
 
-robocopy d:\original1 d:\backup1_of_original1 /MIR /L /X /FP /NS /NC /NDL
+robocopy d:\original_1 d:\backup_of_original_1 /MIR /X /FP /NS /NC /NDL
 
-The output is terrible to parse:
--------------------------------------------------------------------------------
-   ROBOCOPY     ::     Robust File Copy for Windows
--------------------------------------------------------------------------------
-
-  Started : tuesday, 26. november 2024 11:03:11
-   Source : d:\original1\
-     Dest : d:\backup1_of_original1\
-
-    Files : *.*
-
-  Options : *.* /X /FP /NS /NC /NDL /L /S /E /DCOPY:DA /COPY:DAT /PURGE /MIR /R:1000000 /W:30
-
-------------------------------------------------------------------------------
-
-                                d:\backup1_of_original1\LF2023-12-15 10-46-45 es alta.jpg
-                                d:\original1\LF2023-12-11 11-07-09 Luciano.jpg
-
-------------------------------------------------------------------------------
-
-               Total    Copied   Skipped  Mismatch    FAILED    Extras
-    Dirs :         2         0         2         0         0         0
-   Files :         6         1         5         0         0         2
-   Bytes :   31.83 m    9.06 m   22.77 m         0         0    2.70 m
-   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
-   Ended : tuesday, 26. november 2024 11:03:11
 ```
 
 ## Open-source and free as a beer

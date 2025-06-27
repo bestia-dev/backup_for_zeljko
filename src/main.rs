@@ -12,23 +12,19 @@
 #![windows_subsystem = "windows"]
 
 /// Use unwrap! macro to get the line and column of panics also in release mode.
-use unwrap::unwrap;
-
+// use unwrap::unwrap;
 mod gui_helper;
 use gui_helper::*;
 
-static ORIGINAL1: &'static str = r#"original1"#;
-static BACKUP1_OF_ORIGINAL1: &'static str = r#"backup1_of_original1"#;
-static BACKUP2_OF_ORIGINAL1: &'static str = r#"backup2_of_original1"#;
-static ORIGINAL2: &'static str = r#"original2"#;
-static BACKUP_OF_ORIGINAL2: &'static str = r#"backup_of_original2"#;
+static ORIGINAL_1: &'static str = r#"original_1"#;
+static BACKUP_OF_ORIGINAL_1: &'static str = r#"backup_of_original_1"#;
 
 fn main() {
     // scaffolding for catch panic and log to file
-    let _log2 = log2::open("log.txt").size(1 * 1024 * 1024).rotate(3).level("debug").start();
+    tracing_init();
 
     let version: &'static str = env!("CARGO_PKG_VERSION");
-    log::info!("Start app backup_for_zeljko v{}", version);
+    tracing::info!("Start app backup_for_zeljko v{}", version);
 
     // catch panics and write to log.txt
     std::panic::set_hook(Box::new(|info| {
@@ -41,16 +37,16 @@ fn main() {
 }
 
 fn handle_panic(payload: &(dyn std::any::Any + Send), backtrace: std::backtrace::Backtrace) {
-    log::error!("Panicked: ");
+    tracing::error!("Panicked: ");
     if let Some(string) = payload.downcast_ref::<String>() {
-        log::error!("{string}");
+        tracing::error!("{string}");
     } else if let Some(str) = payload.downcast_ref::<&'static str>() {
-        log::error!("{str}")
+        tracing::error!("{str}")
     } else {
-        log::error!("{payload:?}")
+        tracing::error!("{payload:?}")
     }
 
-    log::error!("Backtrace: {backtrace:#?}");
+    tracing::error!("Backtrace: {backtrace:#?}");
 }
 
 /// The original main() is cluttered with standard app scaffolding.
@@ -72,22 +68,8 @@ enum Message {
 }
 
 struct MyApp {
-    original1: Option<String>,
-    backup1_of_original1: Option<String>,
-    backup2_of_original1: Option<String>,
-    original2: Option<String>,
-    backup_of_original2: Option<String>,
-    changing_fields: ChangingFields,
-}
-
-/// Sub-struct to isolate what fields can change,
-/// because of interprocedural-conflicts, keywords: Non-lexical lifetimes (NLL), disjointed capture
-/// <https://smallcultfollowing.com/babysteps/blog/2018/11/01/after-nll-interprocedural-conflicts/>
-/// <https://smallcultfollowing.com/babysteps/blog/2024/06/02/the-borrow-checker-within/>
-struct ChangingFields {
-    files_changed: Vec<String>,
-    count_files_changed: usize,
-    text_to_show: String,
+    original_1: Option<String>,
+    backup_of_original_1: Option<String>,
 }
 
 impl Default for MyApp {
@@ -109,23 +91,12 @@ impl Default for MyApp {
 
         // External drives can have different letters d:, e:, f:,...
         // I need to check where is the foldername I expect. The folder names are fixed.
-        let original1 = find_exist_folder_in_drives(ORIGINAL1);
-        let backup1_of_original1 = find_exist_folder_in_drives(BACKUP1_OF_ORIGINAL1);
-        let backup2_of_original1 = find_exist_folder_in_drives(BACKUP2_OF_ORIGINAL1);
-        let original2 = find_exist_folder_in_drives(ORIGINAL2);
-        let backup_of_original2 = find_exist_folder_in_drives(BACKUP_OF_ORIGINAL2);
+        let original_1 = find_exist_folder_in_drives(ORIGINAL_1);
+        let backup_of_original_1 = find_exist_folder_in_drives(BACKUP_OF_ORIGINAL_1);
 
         Self {
-            original1,
-            backup1_of_original1,
-            backup2_of_original1,
-            original2,
-            backup_of_original2,
-            changing_fields: ChangingFields {
-                files_changed: vec![],
-                count_files_changed: 0,
-                text_to_show: "".to_string(),
-            },
+            original_1,
+            backup_of_original_1,
         }
     }
 }
@@ -161,44 +132,25 @@ impl MyApp {
                 });
 
                 col.push(XText::attr_text(XTextAttr { size: 30.0 }, "Backup for Željko"));
-                col.append(&mut vec![
-                    XText::text("Simple backup program tailored for my friend Željko.").into(),
-                    XText::text("Made with rust and iced GUI.").into(),
-                    XText::text("https://github.com/bestia-dev/backup_for_zeljko").into(),
-                    XText::text("© bestia.dev 2024 MIT license Open-source and free as a beer").into(),
-                ]);
 
-                col.push(XText::text("First backup:"));
-                if let Some(backup1_of_original1) = &self.backup1_of_original1 {
-                    if let Some(original1) = &self.original1 {
-                        col.push(XText::text(format!("    {original1} ---> {backup1_of_original1}")));
+                col.push(XText::text(format!("")));
+
+                col.append(&mut vec![XText::text("Simple backup program tailored for my friend Željko.").into()]);
+
+                col.push(XText::text(format!("")));
+
+                col.push(XText::text("Backup:"));
+                if let Some(backup_of_original_1) = &self.backup_of_original_1 {
+                    if let Some(original_1) = &self.original_1 {
+                        col.push(XText::text(format!("    {original_1} ---> {backup_of_original_1}")));
                     } else {
-                        col.push(XText::text(format!("    Folder {ORIGINAL1} does not exist!")));
+                        col.push(XText::text(format!("    Folder {ORIGINAL_1} does not exist!")));
                     }
                 } else {
-                    col.push(XText::text(format!("    Folder {BACKUP1_OF_ORIGINAL1} does not exist!")));
-                }
-                col.push(XText::text("Second backup:"));
-                if let Some(backup2_of_original1) = &self.backup2_of_original1 {
-                    if let Some(original1) = &self.original1 {
-                        col.push(XText::text(format!("    {original1} ---> {backup2_of_original1}")));
-                    } else {
-                        col.push(XText::text(format!("    Folder {ORIGINAL1} does not exist!")));
-                    }
-                } else {
-                    col.push(XText::text(format!("    Folder {BACKUP2_OF_ORIGINAL1} does not exist!")));
+                    col.push(XText::text(format!("    Folder {BACKUP_OF_ORIGINAL_1} does not exist!")));
                 }
 
-                col.push(XText::text("Third backup:"));
-                if let Some(backup_of_original2) = &self.backup_of_original2 {
-                    if let Some(original2) = &self.original2 {
-                        col.push(XText::text(format!("    {original2} ---> {backup_of_original2}")));
-                    } else {
-                        col.push(XText::text(format!("    Folder {ORIGINAL2} does not exist!")));
-                    }
-                } else {
-                    col.push(XText::text(format!("    Folder {BACKUP_OF_ORIGINAL2} does not exist!")));
-                }
+                col.push(XText::text(format!("")));
 
                 col.push({
                     // I can use blocks or block expressions to crate an isolated space for more complex code.
@@ -216,7 +168,13 @@ impl MyApp {
                     toolbar
                 });
 
-                col.push(XText::text(self.changing_fields.text_to_show.as_str()));
+                col.push(XText::text(format!("")));
+
+                col.append(&mut vec![
+                    XText::text("https://github.com/bestia-dev/backup_for_zeljko").into(),
+                    XText::text("Made with rust and iced GUI.").into(),
+                    XText::text("© bestia.dev 2024 MIT license Open-source and free as a beer").into(),
+                ]);
 
                 // return the entire column converting it to its iced form
                 col.to_iced()
@@ -228,113 +186,77 @@ impl MyApp {
     /// Method that responds to the on click event.
     /// It starts the 3 different backups.
     fn start_all_backups_on_click(&mut self) {
-        self.changing_fields.text_to_show.push_str("\nBackup started. Wait to read disk.\n");
-        // TODO: force view?
-
-        if let Some(original1) = self.original1.as_mut() {
-            if let Some(backup1_of_original1) = self.backup1_of_original1.as_mut() {
-                self.changing_fields.text_to_show.push_str("\nFirst backup\n");
-                self.changing_fields.backup(original1, backup1_of_original1, "first");
+        if let Some(original_1) = self.original_1.as_mut() {
+            if let Some(backup_of_original_1) = self.backup_of_original_1.as_mut() {
+                backup(original_1, backup_of_original_1);
             }
         }
-
-        if let Some(original1) = self.original1.as_ref() {
-            if let Some(backup2_of_original1) = self.backup2_of_original1.as_ref() {
-                self.changing_fields.text_to_show.push_str("\nSecond backup\n");
-                self.changing_fields.backup(original1, backup2_of_original1, "second");
-            }
-        }
-
-        if let Some(original2) = self.original2.as_ref() {
-            if let Some(backup_of_original2) = self.backup_of_original2.as_ref() {
-                self.changing_fields.text_to_show.push_str("\nThird backup\n");
-                self.changing_fields.backup(original2, backup_of_original2, "third");
-            }
-        }
-        self.changing_fields.text_to_show.push_str(&format!(
-            "\nAll files changed for backup: {}\n",
-            self.changing_fields.count_files_changed
-        ));
     }
 }
 
-impl ChangingFields {
-    /// The backup() method uses robocopy. Additionally it saves the deleted and renamed files to a "deleted" folder.
-    /// That way we can revert the changes if we find to be needed. After that the "deleted" folder can be removed forever.
-    fn backup(&mut self, source: &str, destination: &str, backup_number: &str) {
-        let output = Robocopy::command_robocopy_list_only(source, destination);
-        self.files_changed = Robocopy::parse_robocopy_output(output);
-        self.count_files_changed += self.files_changed.len();
-        self.text_to_show.push_str(&self.files_changed.join("\n"));
-        self.text_to_show.push('\n');
-
-        // move the files instead of deleting them
-        use chrono::{DateTime, Local};
-        let current_local: DateTime<Local> = Local::now();
-        let now_formatted = current_local.format("%Y-%m-%d_%H-%M-%S").to_string();
-        // take the "e:\" part of destination to create the new folder
-        let deleted_on_backup_folder = format!(
-            r#"{}deleted_or_renamed_on_backup\{now_formatted}_{backup_number}_backup"#,
-            &destination[..3]
-        );
-        // log::info!("{deleted_on_backup_folder}");
-        for x in &self.files_changed {
-            // only the destination folder and prepare to move them, without folders, only files
-            if x.starts_with(&destination) && !x.ends_with(r#"\"#) {
-                let move_to = x.replace(&destination, &deleted_on_backup_folder);
-                let parent_dir = unwrap!(std::path::Path::new(&move_to).parent());
-                if !parent_dir.exists() {
-                    unwrap!(std::fs::create_dir_all(&parent_dir));
-                }
-                unwrap!(std::fs::rename(x, move_to));
-            }
-        }
-        Robocopy::command_robocopy_mir(source, destination);
-    }
+/// The backup() method uses robocopy.
+fn backup(source: &str, destination: &str) {
+    Robocopy::command_robocopy_mir(source, destination);
 }
+
 /// This struct is needed just to encapsulate robocopy methods.
 /// Often it is easier to structure the code using struct and impl than using modules.
-/// robocopy d:\original1 d:\backup1_of_original1 /MIR /L /X /FP /NS /NC /NDL
+/// robocopy d:\original_1 d:\backup_of_original_1 /MIR /FFT
 struct Robocopy {}
 impl Robocopy {
-    /// robocopy list only
-    pub fn command_robocopy_list_only(source: &str, destination: &str) -> std::process::Output {
-        use std::os::windows::process::CommandExt;
-        let output = std::process::Command::new("robocopy")
-            .args(&[source, destination, "/MIR", "/L", "/X", "/FP", "/NS", "/NC", "/NDL", "/FFT"])
-            // specific windows flag to not open the terminal window
-            .creation_flags(0x08000000)
-            .output()
-            .expect("failed to execute process");
-        output
-    }
-
-    pub fn parse_robocopy_output(output: std::process::Output) -> Vec<String> {
-        let mut vec_string: Vec<String> = vec![];
-        // find the third line ------
-        let mut count_del_lines = 0;
-        // import the trait that has .lines()
-        use std::io::BufRead;
-        for x in output.stdout.lines() {
-            let x = unwrap!(x);
-            if x.starts_with("-----") {
-                count_del_lines += 1;
-            } else if count_del_lines == 3 && !x.is_empty() {
-                vec_string.push(x.trim().to_string());
-            }
-        }
-        vec_string
-    }
-
     /// robocopy MIR
-    pub fn command_robocopy_mir(source: &str, destination: &str) -> std::process::Output {
+    pub fn command_robocopy_mir(source: &str, destination: &str) {
+        // /FFT Assumes FAT file times (two-second precision)
+        // /NDL Specifies that directory names are not to be logged.
+        let robocopy_cmd = format!("robocopy {source} {destination} /MIR /FFT /NDL");
+        tracing::info!("{robocopy_cmd}");
         use std::os::windows::process::CommandExt;
-        let output = std::process::Command::new("robocopy")
-            .args(&[source, destination, "/MIR", "/FFT"])
-            // specific windows flag to not open the terminal window
-            .creation_flags(0x08000000)
-            .output()
-            .expect("failed to execute process");
-        output
+        std::process::Command::new("cmd.exe")
+            // CREATE_NEW_CONSOLE 0x00000010
+            .creation_flags(0x00000010)
+            // /K - Carries out the command specified by string but remains
+            .arg("/K")
+            .arg(&robocopy_cmd)
+            .spawn()
+            .unwrap();
     }
+}
+
+/// Initialize tracing to file logs/log.log
+///
+/// The folder logs/ is in .gitignore and will not be committed.
+pub fn tracing_init() {
+    // uncomment this line to enable tracing to file
+    let file_appender = tracing_appender::rolling::daily("logs", "log.log");
+
+    let offset = time::UtcOffset::current_local_offset().expect("should get local offset!");
+    let timer = tracing_subscriber::fmt::time::OffsetTime::new(
+        offset,
+        time::macros::format_description!("[hour]:[minute]:[second].[subsecond digits:6]"),
+    );
+
+    // Filter out logs from: hyper_util, reqwest
+    // A filter consists of one or more comma-separated directives
+    // target[span{field=value}]=level
+    // examples: tokio::net=info
+    // directives can be added with the RUST_LOG environment variable:
+    // export RUST_LOG=automation_tasks_rs=trace
+    // Unset the environment variable RUST_LOG
+    // unset RUST_LOG
+    let filter = tracing_subscriber::EnvFilter::from_default_env()
+        .add_directive("backup_for_zeljko=debug".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("wgpu_core=error".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("iced_wgpu=error".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("iced_winit=error".parse().unwrap_or_else(|e| panic!("{e}")))
+        .add_directive("wgpu_hal=error".parse().unwrap_or_else(|e| panic!("{e}")));
+
+    tracing_subscriber::fmt()
+        .with_file(true)
+        .with_max_level(tracing::Level::DEBUG)
+        .with_timer(timer)
+        .with_line_number(true)
+        .with_ansi(false)
+        .with_writer(file_appender)
+        .with_env_filter(filter)
+        .init();
 }

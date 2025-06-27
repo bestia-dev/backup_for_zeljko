@@ -1,6 +1,6 @@
 [package]
 name = "backup_for_zeljko"
-version = "2025.331.1411"
+version = "2025.627.1502"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2021"
@@ -14,7 +14,11 @@ publish = false
 
 [dependencies]
 iced = "0.13.1"
-chrono="0.4.38"
+chrono="0.4.41"
 unwrap="1.2.1"
-log="0.4.22"
-log2 = "0.1.14"
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter", "std", "fmt", "time"] }
+tracing-appender="0.2.3"
+win32console = "0.1.5"
+time = {version="0.3.39", features=["macros","local-offset"]}
+

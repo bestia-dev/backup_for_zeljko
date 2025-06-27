@@ -7,12 +7,14 @@ mod build_lib_mod;
 mod cargo_auto_github_api_mod;
 mod encrypt_decrypt_with_ssh_key_mod;
 mod generic_functions_mod;
+mod tasks_mod;
 
 pub use cargo_auto_lib as cl;
 
 use crate::cargo_auto_github_api_mod as cgl;
 use crate::encrypt_decrypt_with_ssh_key_mod as ende;
 use crate::generic_functions_mod as gn;
+use crate::tasks_mod as ts;
 
 pub use cl::{BLUE, GREEN, RED, RESET, YELLOW};
 
@@ -106,13 +108,13 @@ fn print_help() {
 /// all example commands in one place
 fn print_examples_cmd() {
     /*
-            println!(
-                r#"
-      {YELLOW}run examples:{RESET}
+        println!(
+            r#"
+    {YELLOW}run examples:{RESET}
     {GREEN}cargo run --example plantuml1{RESET}
-        "#
-            );
-        */
+    "#
+        );
+    */
 }
 
 /// Sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`.
@@ -183,9 +185,12 @@ fn task_win_release() {
     {YELLOW}After `cargo auto win_release`, run the compiled binary, examples and/or tests{RESET}
 
     {YELLOW}In Windows git-bash, copy the exe file from the Crustde container to Windows.{RESET}
-{GREEN}scp rustdevuser@crustde:/home/rustdevuser/rustprojects/{package_name}/target/x86_64-pc-windows-gnu/release/{package_name}.exe /c/Users/Luciano/rustprojects/{package_name}/{RESET}
+{GREEN}
+mkdir -p ~/git-bash/rustprojects/{package_name} 
+cd ~/git-bash/rustprojects/{package_name}
+scp rustdevuser@crustde:/home/rustdevuser/rustprojects/{package_name}/target/x86_64-pc-windows-gnu/release/{package_name}.exe /c/Users/Luciano/git-bash/rustprojects/{package_name}/{RESET}
     {YELLOW}Run the exe in Windows git-bash.{RESET}
-{GREEN}cd ~/rustprojects/{package_name}
+{GREEN}
 ./{package_name}.exe{RESET}
 
     {YELLOW}if ok then{RESET}
@@ -198,7 +203,7 @@ fn task_win_release() {
 
 /// cargo doc, then copies to /docs/ folder, because this is a GitHub standard folder
 fn task_doc() {
-    gn::task_doc();
+    ts::task_doc();
     // message to help user with next move
     println!(
         r#"
@@ -222,7 +227,7 @@ fn task_test() {
 
 /// commit and push
 fn task_commit_and_push(arg_2: Option<String>) {
-    gn::task_commit_and_push(arg_2);
+    ts::task_commit_and_push(arg_2);
     println!(
         r#"
   {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
@@ -233,9 +238,13 @@ fn task_commit_and_push(arg_2: Option<String>) {
     );
 }
 
-/// create a new release on github
+/// create a new release on github and uploads binary executables
 fn task_github_new_release() {
-    gn::task_github_new_release();
-    println!(r#"  {YELLOW}No more automation tasks. {RESET}"#);
+    ts::task_github_new_release();
+    println!(
+        r#"  
+  {YELLOW}No more automation tasks. {RESET}
+"#
+    );
 }
 // endregion: tasks
