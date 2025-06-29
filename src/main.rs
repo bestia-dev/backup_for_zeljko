@@ -152,8 +152,16 @@ impl MyApp {
 
                 col.push(XText::text(format!("")));
 
+                col.push(XText::text("Click on \"Start backup\" to open the console window."));
+                col.push(XText::text("There will be run the robocopy command."));
+                col.push(XText::text(format!("All the changed files will be clearly listed.")));
+                col.push(XText::text(format!("After that you can close the console window")));
+                col.push(XText::text(format!("and click on \"Exit program\"")));
+
+                col.push(XText::text(format!("")));
+
                 col.push({
-                    // I can use blocks or block expressions to crate an isolated space for more complex code.
+                    // I can use blocks or block expressions to create an isolated space for more complex code.
                     // https://doc.rust-lang.org/reference/expressions/block-expr.html
                     // It is like calling a function to isolate a gui "component".
                     // But this way the code is visible here and it is easier to follow.
@@ -222,12 +230,12 @@ impl Robocopy {
     }
 }
 
-/// Initialize tracing to file logs/log.log
+/// Initialize tracing to file logs/log.YYYY-MM-DD
 ///
 /// The folder logs/ is in .gitignore and will not be committed.
 pub fn tracing_init() {
-    // uncomment this line to enable tracing to file
-    let file_appender = tracing_appender::rolling::daily("logs", "log.log");
+    // tracing to file
+    let file_appender = tracing_appender::rolling::daily("logs", "log");
 
     let offset = time::UtcOffset::current_local_offset().expect("should get local offset!");
     let timer = tracing_subscriber::fmt::time::OffsetTime::new(
@@ -235,12 +243,12 @@ pub fn tracing_init() {
         time::macros::format_description!("[hour]:[minute]:[second].[subsecond digits:6]"),
     );
 
-    // Filter out logs from: hyper_util, reqwest
+    // Filter out logs from dependency crates
     // A filter consists of one or more comma-separated directives
     // target[span{field=value}]=level
-    // examples: tokio::net=info
+    // examples: wgpu_core=error
     // directives can be added with the RUST_LOG environment variable:
-    // export RUST_LOG=automation_tasks_rs=trace
+    // export RUST_LOG=backup_for_zeljko=trace
     // Unset the environment variable RUST_LOG
     // unset RUST_LOG
     let filter = tracing_subscriber::EnvFilter::from_default_env()
