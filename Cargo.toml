@@ -1,9 +1,9 @@
 [package]
 name = "backup_for_zeljko"
-version = "2025.629.1150"
+version = "2025.629.1638"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
-edition = "2021"
+edition = "2024"
 description = "Simple backup program tailored for my friend Željko. Made with rust and iced."
 repository = "https://github.com/bestia-dev/backup_for_zeljko"
 readme = "README.md"
@@ -13,7 +13,7 @@ categories = ["gui"]
 publish = false
 
 [dependencies]
-iced = "0.13.1"
+iced = {version= "0.13.1", features=["image"]}
 chrono="0.4.41"
 unwrap="1.2.1"
 tracing = "0.1.41"
@@ -21,4 +21,7 @@ tracing-subscriber = { version = "0.3.19", features = ["env-filter", "std", "fmt
 tracing-appender="0.2.3"
 win32console = "0.1.5"
 time = {version="0.3.39", features=["macros","local-offset"]}
+
+[build-dependencies]
+winresource = "0.1.22"
 

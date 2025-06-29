@@ -11,7 +11,8 @@ pub struct XText {}
 
 #[derive(Default)]
 pub struct XTextAttr {
-    pub size: f32,
+    pub size: Option<f32>,
+    pub color: Option<iced::Color>,
 }
 
 impl<'a> XText {
@@ -27,7 +28,16 @@ impl<'a> XText {
     /// a text with attr
     /// the parameter can be String or &str, therefore Cow
     pub fn attr_text(attr: XTextAttr, text: impl iced::widget::text::IntoFragment<'a>) -> iced::widget::Text<'a> {
-        iced::widget::Text::new(text).size(attr.size)
+        let mut text = iced::widget::Text::new(text);
+
+        if let Some(size) = attr.size {
+            text = text.size(size);
+        }
+        if let Some(color) = attr.color {
+            text = text.color(color);
+        }
+
+        text
     }
 }
 
