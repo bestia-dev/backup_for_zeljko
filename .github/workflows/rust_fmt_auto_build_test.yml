@@ -46,8 +46,8 @@ jobs:
           automation_tasks_rs/target 
         key: automation_tasks_rs
 
-    - name: cargo auto build
-      run: cargo auto build
+    - name: cargo auto win_release
+      run: cargo auto win_release
 
     - name: cargo auto test
       run: cargo auto test
