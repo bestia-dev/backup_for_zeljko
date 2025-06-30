@@ -19,8 +19,8 @@
 mod gui_helper;
 use gui_helper::*;
 
-static ORIGINAL_1: &'static str = r#"original_1"#;
-static BACKUP_OF_ORIGINAL_1: &'static str = r#"backup_of_original_1"#;
+static ORIGINAL_1: &str = r#"original_1"#;
+static BACKUP_OF_ORIGINAL_1: &str = r#"backup_of_original_1"#;
 
 fn main() {
     // scaffolding for catch panic and log to file
@@ -177,7 +177,7 @@ impl MyApp {
     /// Mandatory method for the iced GUI library.
     /// It is the only place to draw the user interface after a change of the app state.
     fn view(&self) -> iced::Element<Message> {
-        XScrollable::new(
+        XScrollable::new_scrollable(
             XScrollableAttr {
                 width: iced::Length::Fixed(500.0),
                 height: iced::Length::Fixed(600.0),
@@ -197,7 +197,7 @@ impl MyApp {
                 }
 
                 // return the entire column converting it to its iced form
-                col.to_iced()
+                col.into_iced()
             }),
         )
         .into()
@@ -212,13 +212,13 @@ impl MyApp {
             "Backup for Željko",
         ));
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.append(&mut vec![
             XText::text("Simple backup program tailored for my friend Željko.").into(),
         ]);
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.push(XText::text("Backup:"));
         if let Some(backup_of_original_1) = &self.backup_of_original_1 {
@@ -231,15 +231,15 @@ impl MyApp {
             col.push(XText::text(format!("    Folder {BACKUP_OF_ORIGINAL_1} does not exist!")));
         }
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.push(XText::text("Click on \"Start backup\" to open the console window."));
         col.push(XText::text("There will be run the robocopy command."));
-        col.push(XText::text(format!("All the changed files will be clearly listed.")));
-        col.push(XText::text(format!("After that you can close the console window")));
-        col.push(XText::text(format!("and click on \"Exit program\"")));
+        col.push(XText::text("All the changed files will be clearly listed."));
+        col.push(XText::text("After that you can close the console window"));
+        col.push(XText::text("and click on \"Exit program\""));
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.push({
             // I can use blocks or block expressions to create an isolated space for more complex code.
@@ -247,17 +247,16 @@ impl MyApp {
             // It is like calling a function to isolate a gui "component".
             // But this way the code is visible here and it is easier to follow.
             // In their simple form, closures are very similar to block expressions.
-            let toolbar = iced::widget::row![
+            iced::widget::row![
                 iced::widget::Button::new("Start backup").on_press(Message::StartBackup),
                 iced::widget::button("Exit program").on_press(Message::ExitProgram),
             ]
             .spacing(30)
-            .padding(iced::Padding::from(5));
-            // return
-            toolbar
+            .padding(iced::Padding::from(5))
+            // return toolbar
         });
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.append(&mut vec![
             XText::text("https://github.com/bestia-dev/backup_for_zeljko").into(),
@@ -275,7 +274,7 @@ impl MyApp {
             "Backup for Željko",
         ));
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.push(XText::attr_text(
             XTextAttr {
@@ -285,14 +284,13 @@ impl MyApp {
             "Error: Folder original_1 not found on any drive!",
         ));
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.push({
-            let toolbar = iced::widget::row![iced::widget::button("Exit program").on_press(Message::ExitProgram),]
+            iced::widget::row![iced::widget::button("Exit program").on_press(Message::ExitProgram),]
                 .spacing(30)
-                .padding(iced::Padding::from(5));
-            // return
-            toolbar
+                .padding(iced::Padding::from(5))
+            // return toolbar
         });
     }
 
@@ -305,7 +303,7 @@ impl MyApp {
             "Backup for Željko",
         ));
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.push(XText::attr_text(
             XTextAttr {
@@ -315,14 +313,13 @@ impl MyApp {
             "Error: Folder backup_of_original_1 not found on any drive!",
         ));
 
-        col.push(XText::text(format!("")));
+        col.push(XText::text(String::new()));
 
         col.push({
-            let toolbar = iced::widget::row![iced::widget::button("Exit program").on_press(Message::ExitProgram),]
+            iced::widget::row![iced::widget::button("Exit program").on_press(Message::ExitProgram),]
                 .spacing(30)
-                .padding(iced::Padding::from(5));
-            // return
-            toolbar
+                .padding(iced::Padding::from(5))
+            // return toolbar
         });
     }
     /// Method that responds to the on click event.
@@ -354,6 +351,8 @@ impl Robocopy {
             .arg("/K")
             .arg(&robocopy_cmd)
             .spawn()
-            .expect("Command::new");
+            .expect("Command::new")
+            .wait()
+            .unwrap();
     }
 }

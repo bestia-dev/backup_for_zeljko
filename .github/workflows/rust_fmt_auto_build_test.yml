@@ -36,8 +36,8 @@ jobs:
     - name: Run sccache-cache for artifacts
       uses: mozilla-actions/sccache-action@v0.0.8
       
-    - name: cargo clippy --no-deps
-      run: cargo clippy --no-deps
+    - name: cargo clippy --target x86_64-pc-windows-gnu
+      run: cargo clippy --target x86_64-pc-windows-gnu
 
     - name: install and cache cargo-auto
       uses: baptiste0928/cargo-install@v3.3.0

@@ -171,6 +171,7 @@ fn task_win_release() {
     cl::auto_lines_of_code("");
 
     cl::run_shell_command_static("cargo fmt").unwrap_or_else(|e| panic!("{e}"));
+    cl::run_shell_command_static("cargo clippy --target x86_64-pc-windows-gnu").unwrap_or_else(|e| panic!("{e}"));
     cl::run_shell_command_static("cargo build --release --target x86_64-pc-windows-gnu").unwrap_or_else(|e| panic!("{e}"));
 
     // cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"strip "target/release/{package_name}" "#)

@@ -84,13 +84,12 @@ impl<'a> XColumn<'a> {
     }
 
     // last possible method, consumes self
-    pub fn to_iced(self) -> iced::widget::Column<'a, crate::Message> {
+    pub fn into_iced(self) -> iced::widget::Column<'a, crate::Message> {
         iced::widget::Column::from_vec(self.children)
             .spacing(self.attr.spacing)
             .padding(self.attr.padding)
             .align_x(self.attr.align_x)
             .width(self.attr.width)
-            .into()
     }
 }
 
@@ -113,7 +112,7 @@ impl Default for XScrollableAttr {
 }
 
 impl<'a> XScrollable {
-    pub fn new(
+    pub fn new_scrollable(
         attr: XScrollableAttr,
         content: impl Into<iced::Element<'a, crate::Message>>,
     ) -> iced::widget::Scrollable<'a, crate::Message> {
