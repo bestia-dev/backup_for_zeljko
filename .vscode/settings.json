@@ -17,7 +17,11 @@
         "LICENSE": "plain text"
     },
     "rust-analyzer.showUnlinkedFileNotification": false,
-"rust-analyzer.cargo.target": "x86_64-pc-windows-gnu",
+    "rust-analyzer.cargo.target": "x86_64-pc-windows-gnu",
+    "terminal.integrated.commandsToSkipShell": [
+        // Ensure the toggle sidebar visibility ctrl+b keybinding skips the terminal shell
+        "workbench.action.toggleSidebarVisibility",
+    ],
     "cSpell.words": [
         "ackmsgmod",
         "Alla",
