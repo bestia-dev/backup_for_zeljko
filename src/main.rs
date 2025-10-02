@@ -176,7 +176,7 @@ impl MyApp {
     }
     /// Mandatory method for the iced GUI library.
     /// It is the only place to draw the user interface after a change of the app state.
-    fn view(&self) -> iced::Element<Message> {
+    fn view(&self) -> iced::Element<'_, Message> {
         XScrollable::new_scrollable(
             XScrollableAttr {
                 width: iced::Length::Fixed(500.0),

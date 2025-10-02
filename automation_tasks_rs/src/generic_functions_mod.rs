@@ -50,33 +50,3 @@ pub fn tracing_init() {
         .with_env_filter(filter)
         .init();
 }
-
-/// The original Rust report of the panic is ugly for the end user
-///
-/// I use panics extensively to stop the execution. I am lazy to implement a super complicated error handling.
-/// I just need to stop the execution on every little bit of error. This utility is for developers. They will understand me.
-/// For errors I print the location. If the message contains "Exiting..." than it is a "not-error exit" and  the location is not important.
-pub fn panic_set_hook(panic_info: &std::panic::PanicHookInfo) {
-    let mut string_message = "".to_string();
-    if let Some(message) = panic_info.payload().downcast_ref::<String>() {
-        string_message = message.to_owned();
-    }
-    if let Some(message) = panic_info.payload().downcast_ref::<&str>() {
-        string_message.push_str(message);
-    }
-
-    tracing::error!("{string_message}");
-    eprintln!("{string_message}");
-
-    if !string_message.contains("Exiting...") {
-        let file = panic_info.location().unwrap().file();
-        let line = panic_info.location().unwrap().line();
-        let column = panic_info.location().unwrap().column();
-        tracing::error!("Location: {file}:{line}:{column}");
-        eprintln!("Location: {file}:{line}:{column}");
-    }
-    // The tracing thread is still running. Let's wait a little for it to finish.
-    std::thread::sleep(std::time::Duration::new(1, 0));
-    eprintln!("Exit code after Rust panic is 101");
-    std::process::exit(101);
-}

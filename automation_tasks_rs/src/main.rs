@@ -9,6 +9,8 @@ mod encrypt_decrypt_with_ssh_key_mod;
 mod generic_functions_mod;
 mod tasks_mod;
 
+use std::process::ExitCode;
+
 pub use cargo_auto_lib as cl;
 
 use crate::cargo_auto_github_api_mod as cgl;
@@ -23,8 +25,7 @@ use cl::CargoTomlPublicApiMethods;
 
 // region: library with basic automation tasks
 
-fn main() {
-    std::panic::set_hook(Box::new(gn::panic_set_hook));
+fn main()->ExitCode {
     gn::tracing_init();
     cl::exit_if_not_run_in_rust_project_root_directory();
     ende::github_api_token_with_oauth2_mod::github_api_config_initialize();
@@ -33,13 +34,20 @@ fn main() {
     let mut args = std::env::args();
     // the zero argument is the name of the program
     let _arg_0 = args.next();
-    match_arguments_and_call_tasks(args);
+    match match_arguments_and_call_tasks(args){
+        Err(err)=> {
+            eprint!("{}", err);
+            // return error code
+            ExitCode::FAILURE
+        }
+        Ok(())=>ExitCode::SUCCESS
+    }
 }
 
 // region: match, help and completion
 
 /// match arguments and call tasks functions
-fn match_arguments_and_call_tasks(mut args: std::env::Args) {
+fn match_arguments_and_call_tasks(mut args: std::env::Args)->anyhow::Result<()> {
     // the first argument is the user defined task: (no argument for help), build, release,...
     let arg_1 = args.next();
     match arg_1 {
@@ -56,7 +64,7 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
                 } else if &task == "doc" {
                     task_doc();
                 } else if &task == "test" {
-                    task_test();
+                    task_test()?;
                 } else if &task == "commit_and_push" {
                     let arg_2 = args.next();
                     task_commit_and_push(arg_2);
@@ -69,6 +77,7 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
             }
         }
     }
+    Ok(())
 }
 
 /// write a comprehensible help for user defined tasks
@@ -215,8 +224,8 @@ fn task_doc() {
 }
 
 /// cargo test
-fn task_test() {
-    cl::run_shell_command_static("cargo test").unwrap_or_else(|e| panic!("{e}"));
+fn task_test()-> anyhow::Result<()> {
+    cl::run_shell_command_static("cargo test")?;
     println!(
         r#"
   {YELLOW}After `cargo auto test`. If ok then {RESET}
@@ -224,6 +233,7 @@ fn task_test() {
 {GREEN}cargo auto commit_and_push "message"{RESET}
 "#
     );
+    Ok(())
 }
 
 /// commit and push
