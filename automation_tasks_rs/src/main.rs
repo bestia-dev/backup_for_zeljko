@@ -36,9 +36,9 @@ fn main()->ExitCode {
     let _arg_0 = args.next();
     match match_arguments_and_call_tasks(args){
         Err(err)=> {
-            eprint!("{}", err);
-            // return error code
-            ExitCode::FAILURE
+            eprintln!("{}", err);
+            eprintln!("Exit program with error code 101");
+            ExitCode::from(101)
         }
         Ok(())=>ExitCode::SUCCESS
     }
