@@ -75,6 +75,8 @@ pub fn panic_set_hook(panic_info: &std::panic::PanicHookInfo) {
         tracing::error!("Location: {file}:{line}:{column}");
         eprintln!("Location: {file}:{line}:{column}");
     }
+    // The tracing thread is still running. Let's wait a little for it to finish.
+    std::thread::sleep(time::Duration::from_millis(1000));
     eprintln!("Exit code after Rust panic is 101");
     std::process::exit(101);
 }
