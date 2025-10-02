@@ -75,6 +75,6 @@ pub fn panic_set_hook(panic_info: &std::panic::PanicHookInfo) {
         tracing::error!("Location: {file}:{line}:{column}");
         eprintln!("Location: {file}:{line}:{column}");
     }
-    // exit code after Rust panic is 101
+    eprintln!("Exit code after Rust panic is 101");
     std::process::exit(101);
 }
