@@ -9,7 +9,6 @@ mod encrypt_decrypt_with_ssh_key_mod;
 mod generic_functions_mod;
 mod tasks_mod;
 
-use std::process::ExitCode;
 
 pub use cargo_auto_lib as cl;
 
@@ -25,7 +24,7 @@ use cl::CargoTomlPublicApiMethods;
 
 // region: library with basic automation tasks
 
-fn main()->ExitCode {
+fn main()->std::process::ExitCode {
     gn::tracing_init();
     cl::exit_if_not_run_in_rust_project_root_directory();
     ende::github_api_token_with_oauth2_mod::github_api_config_initialize();
@@ -38,9 +37,9 @@ fn main()->ExitCode {
         Err(err)=> {
             eprintln!("{}", err);
             eprintln!("Exit program with error code 101");
-            ExitCode::from(101)
+            std::process::ExitCode::from(101)
         }
-        Ok(())=>ExitCode::SUCCESS
+        Ok(())=>std::process::ExitCode::SUCCESS
     }
 }
 

@@ -75,6 +75,11 @@ The prepared automation-tasks-rs can create a new git repository and a remote Gi
 
 To publish to crates.io we need the secret access token. The prepared tasks will store it in ~/.ssh protected by your private key.
 
+## Errors and panics
+
+I tried working with panics and panic_hook, but it does not work nice in Rust.  
+The only correct way is using Result and ? propagation.  
+
 ## Open-source and free as a beer
 
 My open-source projects are free as a beer (MIT license).  

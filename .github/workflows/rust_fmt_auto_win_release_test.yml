@@ -61,3 +61,5 @@ jobs:
     - name: cargo auto test
       run: cargo auto test
 
+    - name: print just so test is not the last step
+      run: echo "The last step in the job is echo." >> "$GITHUB_OUTPUT"
