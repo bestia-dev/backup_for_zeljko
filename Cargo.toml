@@ -1,6 +1,6 @@
 [package]
 name = "backup_for_zeljko"
-version = "2025.1002.1053"
+version = "2025.1003.856"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2024"
@@ -21,8 +21,10 @@ unwrap="1.2.1"
 tracing = "0.1.41"
 tracing-subscriber = { version = "0.3.19", features = ["env-filter", "std", "fmt", "time"] }
 tracing-appender="0.2.3"
-win32console = "0.1.5"
+# win32console = "0.1.5"
 time = {version="0.3.39", features=["macros","local-offset"]}
+
+# winapi = { version = "0.3.5", features = ["winnt"] }
 
 [build-dependencies]
 winresource = "0.1.22"

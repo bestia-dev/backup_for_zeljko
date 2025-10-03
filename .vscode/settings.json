@@ -139,6 +139,7 @@
         "websocketmod",
         "websysmod",
         "wgpu",
+        "winapi",
         "winit",
         "winresource",
         "zcvf",

@@ -3,6 +3,7 @@
 // region: library and modules with basic automation tasks
 
 mod build_cli_bin_mod;
+mod build_cli_bin_win_mod;
 mod build_lib_mod;
 mod cargo_auto_github_api_mod;
 mod encrypt_decrypt_with_ssh_key_mod;
@@ -24,23 +25,30 @@ use cl::CargoTomlPublicApiMethods;
 
 // region: library with basic automation tasks
 
-fn main()->std::process::ExitCode {
-    gn::tracing_init();
+///main returns ExitCode
+fn main() -> std::process::ExitCode {
+    match main_returns_anyhow_result() {
+        Err(err) => {
+            eprintln!("{}", err);
+            // eprintln!("Exit program with failure exit code 1");
+            std::process::ExitCode::FAILURE
+        }
+        Ok(()) => std::process::ExitCode::SUCCESS,
+    }
+}
+
+/// main() returns anyhow::Result
+fn main_returns_anyhow_result() -> anyhow::Result<()> {
+    gn::tracing_init()?;
     cl::exit_if_not_run_in_rust_project_root_directory();
-    ende::github_api_token_with_oauth2_mod::github_api_config_initialize();
-    ende::crates_io_api_token_mod::crates_io_config_initialize();
+    ende::github_api_token_with_oauth2_mod::github_api_config_initialize()?;
+    ende::crates_io_api_token_mod::crates_io_config_initialize()?;
     // get CLI arguments
     let mut args = std::env::args();
     // the zero argument is the name of the program
     let _arg_0 = args.next();
-    match match_arguments_and_call_tasks(args){
-        Err(err)=> {
-            eprintln!("{}", err);
-            eprintln!("Exit program with error code 101");
-            std::process::ExitCode::from(101)
-        }
-        Ok(())=>std::process::ExitCode::SUCCESS
-    }
+    match_arguments_and_call_tasks(args)?;
+    Ok(())
 }
 
 // region: match, help and completion
@@ -50,28 +58,28 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args)->anyhow::Result<()> 
     // the first argument is the user defined task: (no argument for help), build, release,...
     let arg_1 = args.next();
     match arg_1 {
-        None => print_help(),
+        None => print_help()?,
         Some(task) => {
             if &task == "completion" {
-                completion();
+                completion()?;
             } else {
                 println!("  {YELLOW}Running automation task: {task}{RESET}");
-                if &task == "build" {
-                    task_build();
+                if &task == "build_win" {
+                    task_build_win()?;
                 } else if &task == "win_release" {
-                    task_win_release();
+                    task_win_release()?;
                 } else if &task == "doc" {
-                    task_doc();
+                    task_doc()?;
                 } else if &task == "test" {
                     task_test()?;
                 } else if &task == "commit_and_push" {
                     let arg_2 = args.next();
-                    task_commit_and_push(arg_2);
+                    task_commit_and_push(arg_2)?;
                 } else if &task == "github_new_release" {
-                    task_github_new_release();
+                    task_github_new_release()?;
                 } else {
                     eprintln!("{RED}Error: Task {task} is unknown.{RESET}");
-                    print_help();
+                    print_help()?;
                 }
             }
         }
@@ -80,14 +88,14 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args)->anyhow::Result<()> 
 }
 
 /// write a comprehensible help for user defined tasks
-fn print_help() {
+fn print_help() ->anyhow::Result<()>{
     println!(
         r#"
   {YELLOW}Welcome to cargo-auto !{RESET}
   {YELLOW}This program automates your custom tasks when developing a Rust project.{RESET}
 
   {YELLOW}User defined tasks in automation_tasks_rs:{RESET}
-{GREEN}cargo auto build{RESET} - {YELLOW}builds the crate in debug mode, fmt, increment version{RESET}
+{GREEN}cargo auto build_win{RESET} - {YELLOW}builds the crate in debug mode, fmt, increment version{RESET}
 {GREEN}cargo auto win_release{RESET} - {YELLOW}builds the crate in release mode (cross compile to win), fmt, increment version{RESET}
 {GREEN}cargo auto doc{RESET} - {YELLOW}builds the docs, copy to docs directory{RESET}
 {GREEN}cargo auto test{RESET} - {YELLOW}runs all the tests{RESET}
@@ -111,6 +119,7 @@ fn print_help() {
 "#
     );
     print_examples_cmd();
+    Ok(())
 }
 
 /// all example commands in one place
@@ -126,14 +135,14 @@ fn print_examples_cmd() {
 }
 
 /// Sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`.
-fn completion() {
+fn completion() ->anyhow::Result<()>{
     let args: Vec<String> = std::env::args().collect();
     let word_being_completed = args[2].as_str();
     let last_word = args[3].as_str();
 
     if last_word == "cargo-auto" || last_word == "auto" {
         let sub_commands = vec![
-            "build",
+            "build_win",
             "win_release",
             "doc",
             "test",
@@ -150,44 +159,33 @@ fn completion() {
        cl::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
     */
+    Ok(())
 }
 
 // endregion: match, help and completion
 
 // region: tasks
 
-/// cargo build
-fn task_build() {
-    let cargo_toml = crate::build_cli_bin_mod::task_build();
+/// cargo build_win
+fn task_build_win() -> anyhow::Result<()>{
+    let cargo_toml = crate::build_cli_bin_win_mod::task_build()?;
+
     println!(
         r#"
-  {YELLOW}After `cargo auto build`, run the compiled binary, examples and/or tests{RESET}
+  {YELLOW}After `cargo auto build_win`, run the compiled binary, examples and/or tests{RESET}
   {YELLOW}if {package_name} ok then{RESET}
 {GREEN}cargo auto win_release{RESET}
 "#,
         package_name = cargo_toml.package_name(),
     );
     print_examples_cmd();
+    Ok(())
 }
 
 /// cargo build --release --target x86_64-pc-windows-gnu
-/// TODO: try cross compile to windows, because Linux has problems with file datetimes on external disk
-fn task_win_release() {
-    let cargo_toml = cl::CargoToml::read();
-    cl::auto_version_increment_semver_or_date();
-    cl::auto_cargo_toml_to_md();
-    cl::auto_lines_of_code("");
-
-    cl::run_shell_command_static("cargo fmt").unwrap_or_else(|e| panic!("{e}"));
-    cl::run_shell_command_static("cargo clippy --target x86_64-pc-windows-gnu").unwrap_or_else(|e| panic!("{e}"));
-    cl::run_shell_command_static("cargo build --release --target x86_64-pc-windows-gnu").unwrap_or_else(|e| panic!("{e}"));
-
-    // cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"strip "target/release/{package_name}" "#)
-    //     .unwrap_or_else(|e| panic!("{e}"))
-    //     .arg("{package_name}", &cargo_toml.package_name())
-    //     .unwrap_or_else(|e| panic!("{e}"))
-    //     .run()
-    //     .unwrap_or_else(|e| panic!("{e}"));
+/// TODO: try cross compile to windows, because Linux has problems with file datetime on external disk
+fn task_win_release() -> anyhow::Result<()>{
+    let cargo_toml = crate::build_cli_bin_win_mod::task_release()?;
 
     println!(
         r#"
@@ -208,11 +206,12 @@ scp rustdevuser@crustde:/home/rustdevuser/rustprojects/{package_name}/target/x86
         package_name = cargo_toml.package_name(),
     );
     print_examples_cmd();
+    Ok(())
 }
 
 /// cargo doc, then copies to /docs/ folder, because this is a GitHub standard folder
-fn task_doc() {
-    ts::task_doc();
+fn task_doc() ->anyhow::Result<()>{
+    ts::task_doc()?;
     // message to help user with next move
     println!(
         r#"
@@ -220,11 +219,17 @@ fn task_doc() {
 {GREEN}cargo auto test{RESET}
 "#
     );
+    Ok(())
 }
 
 /// cargo test
 fn task_test()-> anyhow::Result<()> {
-    cl::run_shell_command_static("cargo test")?;
+    println!(r"  {RED}backup_for_zeljko will be always cross build from Linux for Windows.
+  There is not possible to test it on Linux.
+  You have to copy the executable to Windows and test it there.{RESET}");
+
+    //cl::run_shell_command_static("cargo test")?;
+
     println!(
         r#"
   {YELLOW}After `cargo auto test`. If ok then {RESET}
@@ -236,8 +241,8 @@ fn task_test()-> anyhow::Result<()> {
 }
 
 /// commit and push
-fn task_commit_and_push(arg_2: Option<String>) {
-    ts::task_commit_and_push(arg_2);
+fn task_commit_and_push(arg_2: Option<String>)->anyhow::Result<()> {
+    ts::task_commit_and_push(arg_2)?;
     println!(
         r#"
   {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
@@ -246,15 +251,17 @@ fn task_commit_and_push(arg_2: Option<String>) {
 {GREEN}cargo auto github_new_release{RESET}
 "#
     );
+    Ok(())
 }
 
 /// create a new release on github and uploads binary executables
-fn task_github_new_release() {
-    ts::task_github_new_release();
+fn task_github_new_release()->anyhow::Result<()> {
+    ts::task_github_new_release()?;
     println!(
         r#"  
   {YELLOW}No more automation tasks. {RESET}
 "#
     );
+    Ok(())
 }
 // endregion: tasks

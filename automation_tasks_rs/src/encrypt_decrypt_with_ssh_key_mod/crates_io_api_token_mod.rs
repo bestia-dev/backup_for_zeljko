@@ -43,6 +43,7 @@
 
 #![allow(dead_code)]
 
+use anyhow::Context;
 use cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizerTrait;
 use secrecy::{SecretBox, SecretString};
 
@@ -62,16 +63,17 @@ pub static CRATES_IO_CONFIG: std::sync::OnceLock<CratesIoConfig> = std::sync::On
 /// Application state (static) is initialized only once in the main() function.
 ///
 /// And then is accessible all over the code.
-pub fn crates_io_config_initialize() {
+pub fn crates_io_config_initialize() -> anyhow::Result<()> {
     if CRATES_IO_CONFIG.get().is_some() {
-        return;
+        return Ok(());
     }
 
     let crates_io_config_json = std::fs::read_to_string("automation_tasks_rs/crates_io_config.json")
-        .unwrap_or_else(|_| panic!("{RED}Error: The file automation_tasks_rs/crates_io_config.json is missing.{RESET}"));
+        .with_context(|| anyhow::anyhow!("{RED}Error: The file automation_tasks_rs/crates_io_config.json is missing.{RESET}"))?;
     let crates_io_config: CratesIoConfig = serde_json::from_str(&crates_io_config_json)
-        .unwrap_or_else(|_| panic!("{RED}Error: The content of automation_tasks_rs/crates_io_config.json is not correct.{RESET}"));
+        .with_context(|| anyhow::anyhow!("{RED}Error: The content of automation_tasks_rs/crates_io_config.json is not correct.{RESET}"))?;
     let _ = CRATES_IO_CONFIG.set(crates_io_config);
+    Ok(())
 }
 
 /// get crates.io secret token
@@ -177,13 +179,13 @@ pub fn publish_to_crates_io() -> anyhow::Result<()> {
         crates_io_secret_token_key: String,
     }
 
-    let secret_access_token = get_crates_io_secret_token(&CRATES_IO_CONFIG.get().unwrap().crates_io_private_key_file_name)?;
+    let secret_access_token = get_crates_io_secret_token(&CRATES_IO_CONFIG.get().context("CRATES_IO_CONFIG is None")?.crates_io_private_key_file_name)?;
     // the secret_token is redacted when print on screen
     cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)
-        .unwrap_or_else(|e| panic!("{e}"))
+        ?
         .arg_secret("{secret_token}", &secret_access_token)
-        .unwrap_or_else(|e| panic!("{e}"))
+        ?
         .run()
-        .unwrap_or_else(|e| panic!("{e}"));
+        ?;
     Ok(())
 }

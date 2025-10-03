@@ -78,7 +78,7 @@ To publish to crates.io we need the secret access token. The prepared tasks will
 ## Errors and panics
 
 I tried working with panics and panic_hook, but it does not work nice in Rust.  
-The only correct way is using Result and ? propagation.  
+The only correct way is using Result and ? propagation with anyhow.  
 
 ## Open-source and free as a beer
 

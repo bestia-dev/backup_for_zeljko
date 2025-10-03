@@ -54,8 +54,11 @@
         "subsecond",
         "substack",
         "thiserror",
+        "wgpu",
+        "winit",
         "zcvf",
         "zdravje",
+        "zeljko",
         "zeroize"
     ]
 }
