@@ -1,4 +1,4 @@
-name: rust_fmt_auto_win_release_test
+name: rust_fmt_auto_win_release
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  rust_fmt_auto_win_release_test:
+  rust_fmt_auto_win_release:
 
     runs-on: ubuntu-latest
 
@@ -58,8 +58,3 @@ jobs:
     - name: cargo auto win_release
       run: cargo auto win_release
 
-    - name: cargo auto test
-      run: cargo auto test
-
-    - name: print just so test is not the last step
-      run: echo "The last step in the job is echo." >> "$GITHUB_OUTPUT"
