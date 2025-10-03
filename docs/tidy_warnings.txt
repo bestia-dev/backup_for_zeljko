@@ -1,9 +1,9 @@
 ./docs/backup_for_zeljko/all.html
 Document: "2" is not a file!
 
-line 1 column 2214 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2214 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2230 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2215 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2215 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2231 - Warning: discarding unexpected </rustdoc-search>
 line 1 column 1795 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
@@ -11,12 +11,12 @@ using HTML Tidy to generate a tidied up version.
 ./docs/backup_for_zeljko/index.html
 Document: "2" is not a file!
 
-line 1 column 3169 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3169 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 3185 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 3398 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3398 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 3415 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 3170 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3170 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 3186 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3399 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3399 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3416 - Warning: discarding unexpected </rustdoc-toolbar>
 line 1 column 1818 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
