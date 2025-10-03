@@ -102,7 +102,7 @@ struct SecretResponseAccessToken {
 /// Application state (static) is initialized only once in the main() function.
 ///
 /// And then is accessible all over the code.
-pub fn github_api_config_initialize() -> anyhow::Result<()> {
+pub fn github_api_config_initialize()->anyhow::Result<()> {
     if GITHUB_API_CONFIG.get().is_some() {
         return Ok(());
     }
@@ -121,11 +121,7 @@ pub fn github_api_config_initialize() -> anyhow::Result<()> {
 /// Returns access_token to use as bearer for api calls
 pub fn get_github_secret_token() -> anyhow::Result<SecretString> {
     let client_id = GITHUB_API_CONFIG.get().context("GITHUB_API_CONFIG is None")?.client_id.to_string();
-    let private_key_file_name = GITHUB_API_CONFIG
-        .get()
-        .context("GITHUB_API_CONFIG is None")?
-        .github_api_private_key_file_name
-        .to_string();
+    let private_key_file_name = GITHUB_API_CONFIG.get().context("GITHUB_API_CONFIG is None")?.github_api_private_key_file_name.to_string();
 
     println!("  {YELLOW}Check if the ssh private key exists.{RESET}");
     let private_key_path_struct = ende::PathStructInSshFolder::new(private_key_file_name.clone())?;

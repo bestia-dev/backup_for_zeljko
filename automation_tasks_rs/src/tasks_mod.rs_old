@@ -20,7 +20,7 @@ use crossplatform_path::CrossPathBuf;
 
 #[allow(dead_code)]
 /// cargo doc, then copies to /docs/ folder, because this is a GitHub standard folder
-pub fn task_doc() -> anyhow::Result<()> {
+pub fn task_doc()  -> anyhow::Result<()>{
     let cargo_toml = cl::CargoToml::read()?;
     cl::auto_cargo_toml_to_md()?;
     cl::auto_lines_of_code("")?;
@@ -38,9 +38,12 @@ pub fn task_doc() -> anyhow::Result<()> {
     // Create simple index.html file in docs directory
     cl::ShellCommandLimitedDoubleQuotesSanitizer::new(
         r#"printf "<meta http-equiv=\"refresh\" content=\"0; url={url_sanitized_for_double_quote}/index.html\" />\n" > docs/index.html"#,
-    )?
-    .arg("{url_sanitized_for_double_quote}", &cargo_toml.package_name().replace("-", "_"))?
-    .run()?;
+    )
+    ?
+    .arg("{url_sanitized_for_double_quote}", &cargo_toml.package_name().replace("-", "_"))
+    ?
+    .run()
+    ?;
 
     // pretty html
     #[cfg(target_family = "unix")]
@@ -60,7 +63,7 @@ pub fn task_doc() -> anyhow::Result<()> {
 }
 
 /// commit and push
-pub fn task_commit_and_push(arg_2: Option<String>) -> anyhow::Result<()> {
+pub fn task_commit_and_push(arg_2: Option<String>) -> anyhow::Result<()>{
     let Some(message) = arg_2 else {
         eprintln!("{RED}Error: Message for commit is mandatory.{RESET}");
         // early exit
@@ -82,16 +85,20 @@ pub fn task_commit_and_push(arg_2: Option<String>) -> anyhow::Result<()> {
 
         // separate commit for docs if they changed, to not make a lot of noise in the real commit
         if CrossPathBuf::new("docs")?.exists() {
-            cl::run_shell_command_static(r#"git add docs && git diff --staged --quiet || git commit -m "update docs" "#)?;
+            cl::run_shell_command_static(r#"git add docs && git diff --staged --quiet || git commit -m "update docs" "#)
+                ?;
         }
 
         cl::add_message_to_unreleased(&message)?;
         // the real commit of code
         cl::ShellCommandLimitedDoubleQuotesSanitizer::new(
             r#"git add -A && git diff --staged --quiet || git commit -m "{message_sanitized_for_double_quote}" "#,
-        )?
-        .arg("{message_sanitized_for_double_quote}", &message)?
-        .run()?;
+        )
+        ?
+        .arg("{message_sanitized_for_double_quote}", &message)
+        ?
+        .run()
+        ?;
 
         cl::run_shell_command_static("git push")?;
     }
@@ -119,9 +126,12 @@ pub fn task_github_new_release() -> anyhow::Result<()> {
     cl::create_new_version_in_releases_md(&release_name).context("create_new_version_in_releases_md is None")?;
 
     // Commit and push of modified Version in RELEASES.md
-    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"git add -A && git commit -m "{message_sanitized_for_double_quote}" "#)?
-        .arg("{message_sanitized_for_double_quote}", &release_name)?
-        .run()?;
+    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"git add -A && git commit -m "{message_sanitized_for_double_quote}" "#)
+        ?
+        .arg("{message_sanitized_for_double_quote}", &release_name)
+        ?
+        .run()
+        ?;
 
     cl::run_shell_command_static("git push")?;
 
@@ -153,12 +163,7 @@ pub fn task_github_new_release() -> anyhow::Result<()> {
 
     // region: upload asset only for executables, not for libraries
 
-    let release_id = json_value
-        .get("id")
-        .context("id is None")?
-        .as_i64()
-        .context("id is None")?
-        .to_string();
+    let release_id = json_value.get("id").context("id is None")?.as_i64().context("id is None")?.to_string();
     println!("  {YELLOW}Now uploading release asset. This can take some time if the files are big. Wait...{RESET}");
     // Linux executable binary tar-gz-ed compress files tar.gz
     let executable_path = format!("target/release/{repo_name}");
@@ -167,17 +172,24 @@ pub fn task_github_new_release() -> anyhow::Result<()> {
 
         cl::ShellCommandLimitedDoubleQuotesSanitizer::new(
             r#"tar -zcvf "{compressed_name_sanitized_for_double_quote}" "{executable_path_sanitized_for_double_quote}" "#,
-        )?
-        .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)?
-        .arg("{executable_path_sanitized_for_double_quote}", &executable_path)?
-        .run()?;
+        )
+        ?
+        .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)
+        ?
+        .arg("{executable_path_sanitized_for_double_quote}", &executable_path)
+        ?
+        .run()
+        ?;
 
         // upload asset
         cgl::github_api_upload_asset_to_release(&github_owner, &repo_name, &release_id, &compressed_name)?;
 
-        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{compressed_name_sanitized_for_double_quote}" "#)?
-            .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)?
-            .run()?;
+        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{compressed_name_sanitized_for_double_quote}" "#)
+            ?
+            .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)
+            ?
+            .run()
+            ?;
         println!(r#"  {YELLOW}Asset uploaded. Open and edit the description on GitHub Releases in the browser.{RESET}"#);
     }
 
@@ -191,17 +203,24 @@ pub fn task_github_new_release() -> anyhow::Result<()> {
 
         cl::ShellCommandLimitedDoubleQuotesSanitizer::new(
             r#"zip "{compressed_name_sanitized_for_double_quote}" "{executable_path_sanitized_for_double_quote}" "#,
-        )?
-        .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)?
-        .arg("{executable_path_sanitized_for_double_quote}", &executable_path)?
-        .run()?;
+        )
+        ?
+        .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)
+        ?
+        .arg("{executable_path_sanitized_for_double_quote}", &executable_path)
+        ?
+        .run()
+        ?;
 
         // upload asset
         cgl::github_api_upload_asset_to_release(&github_owner, &repo_name, &release_id, &compressed_name)?;
 
-        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{compressed_name_sanitized_for_double_quote}" "#)?
-            .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)?
-            .run()?;
+        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"rm "{compressed_name_sanitized_for_double_quote}" "#)
+            ?
+            .arg("{compressed_name_sanitized_for_double_quote}", &compressed_name)
+            ?
+            .run()
+            ?;
 
         println!(r#"  {YELLOW}Asset uploaded. Open and edit the description on GitHub Releases in the browser.{RESET}"#);
     }

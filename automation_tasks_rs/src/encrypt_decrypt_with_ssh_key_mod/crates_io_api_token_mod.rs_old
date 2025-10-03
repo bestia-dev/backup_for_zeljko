@@ -180,12 +180,7 @@ pub fn publish_to_crates_io() -> anyhow::Result<()> {
         crates_io_secret_token_key: String,
     }
 
-    let secret_access_token = get_crates_io_secret_token(
-        &CRATES_IO_CONFIG
-            .get()
-            .context("CRATES_IO_CONFIG is None")?
-            .crates_io_private_key_file_name,
-    )?;
+    let secret_access_token = get_crates_io_secret_token(&CRATES_IO_CONFIG.get().context("CRATES_IO_CONFIG is None")?.crates_io_private_key_file_name)?;
     // the secret_token is redacted when print on screen
     cargo_auto_lib::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)?
         .arg_secret("{secret_token}", &secret_access_token)?

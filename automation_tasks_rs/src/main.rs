@@ -10,7 +10,6 @@ mod encrypt_decrypt_with_ssh_key_mod;
 mod generic_functions_mod;
 mod tasks_mod;
 
-
 pub use cargo_auto_lib as cl;
 
 use crate::cargo_auto_github_api_mod as cgl;
@@ -54,7 +53,7 @@ fn main_returns_anyhow_result() -> anyhow::Result<()> {
 // region: match, help and completion
 
 /// match arguments and call tasks functions
-fn match_arguments_and_call_tasks(mut args: std::env::Args)->anyhow::Result<()> {
+fn match_arguments_and_call_tasks(mut args: std::env::Args) -> anyhow::Result<()> {
     // the first argument is the user defined task: (no argument for help), build, release,...
     let arg_1 = args.next();
     match arg_1 {
@@ -88,7 +87,7 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args)->anyhow::Result<()> 
 }
 
 /// write a comprehensible help for user defined tasks
-fn print_help() ->anyhow::Result<()>{
+fn print_help() -> anyhow::Result<()> {
     println!(
         r#"
   {YELLOW}Welcome to cargo-auto !{RESET}
@@ -135,7 +134,7 @@ fn print_examples_cmd() {
 }
 
 /// Sub-command for bash auto-completion of `cargo auto` using the crate `dev_bestia_cargo_completion`.
-fn completion() ->anyhow::Result<()>{
+fn completion() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().collect();
     let word_being_completed = args[2].as_str();
     let last_word = args[3].as_str();
@@ -148,7 +147,7 @@ fn completion() ->anyhow::Result<()>{
             "test",
             "commit_and_push",
             "github_new_release",
-            "update_automation_tasks_rs"
+            "update_automation_tasks_rs",
         ];
         cl::completion_return_one_or_more_sub_commands(sub_commands, word_being_completed);
     }
@@ -167,7 +166,7 @@ fn completion() ->anyhow::Result<()>{
 // region: tasks
 
 /// cargo build_win
-fn task_build_win() -> anyhow::Result<()>{
+fn task_build_win() -> anyhow::Result<()> {
     let cargo_toml = crate::build_cli_bin_win_mod::task_build()?;
 
     println!(
@@ -184,7 +183,7 @@ fn task_build_win() -> anyhow::Result<()>{
 
 /// cargo build --release --target x86_64-pc-windows-gnu
 /// TODO: try cross compile to windows, because Linux has problems with file datetime on external disk
-fn task_win_release() -> anyhow::Result<()>{
+fn task_win_release() -> anyhow::Result<()> {
     let cargo_toml = crate::build_cli_bin_win_mod::task_release()?;
 
     println!(
@@ -210,7 +209,7 @@ scp rustdevuser@crustde:/home/rustdevuser/rustprojects/{package_name}/target/x86
 }
 
 /// cargo doc, then copies to /docs/ folder, because this is a GitHub standard folder
-fn task_doc() ->anyhow::Result<()>{
+fn task_doc() -> anyhow::Result<()> {
     ts::task_doc()?;
     // message to help user with next move
     println!(
@@ -223,7 +222,7 @@ fn task_doc() ->anyhow::Result<()>{
 }
 
 /// cargo test
-fn task_test()-> anyhow::Result<()> {
+fn task_test() -> anyhow::Result<()> {
     println!(r"  {RED}backup_for_zeljko will be always cross build from Linux for Windows.
   There is not possible to test it on Linux.
   You have to copy the executable to Windows and test it there.{RESET}");
@@ -241,7 +240,7 @@ fn task_test()-> anyhow::Result<()> {
 }
 
 /// commit and push
-fn task_commit_and_push(arg_2: Option<String>)->anyhow::Result<()> {
+fn task_commit_and_push(arg_2: Option<String>) -> anyhow::Result<()> {
     ts::task_commit_and_push(arg_2)?;
     println!(
         r#"
@@ -255,10 +254,10 @@ fn task_commit_and_push(arg_2: Option<String>)->anyhow::Result<()> {
 }
 
 /// create a new release on github and uploads binary executables
-fn task_github_new_release()->anyhow::Result<()> {
+fn task_github_new_release() -> anyhow::Result<()> {
     ts::task_github_new_release()?;
     println!(
-        r#"  
+        r#"
   {YELLOW}No more automation tasks. {RESET}
 "#
     );

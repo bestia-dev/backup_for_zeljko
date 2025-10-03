@@ -40,12 +40,9 @@ pub fn task_release() -> anyhow::Result<cl::CargoToml> {
     // strip only for binary executables
     #[cfg(target_family = "unix")]
     if std::fs::exists("target/release/{package_name}")? {
-        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"strip "target/release/{package_name}" "#)
-            ?
-            .arg("{package_name}", &cargo_toml.package_name())
-            ?
-            .run()
-            ?;
+        cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"strip "target/release/{package_name}" "#)?
+            .arg("{package_name}", &cargo_toml.package_name())?
+            .run()?;
     }
     Ok(cargo_toml)
 }
