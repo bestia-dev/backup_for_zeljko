@@ -1,3 +1,2 @@
-var srcIndex = new Map(JSON.parse('[["backup_for_zeljko",["",[],["main.rs"]]]]'));
-createSrcSidebar();
-//{"start":36,"fragment_lengths":[41]}
+createSrcSidebar('[["backup_for_zeljko",["",[],["main.rs"]]]]');
+//{"start":19,"fragment_lengths":[41]}

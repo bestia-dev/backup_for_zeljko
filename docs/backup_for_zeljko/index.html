@@ -1,7 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="backup_for_zeljko"><title>backup_for_zeljko - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="backup_for_zeljko" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0 (4d91de4e4 2025-02-17)" data-channel="1.85.0" data-search-js="search-75f5ac3e.js" data-settings-js="settings-0f613d39.js" ><script src="../static.files/storage-59e33391.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../backup_for_zeljko/index.html">backup_<wbr>for_<wbr>zeljko</a><span class="version">2025.331.1411</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#backup_for_zeljko" title="backup_for_zeljko">backup_for_zeljko</a><ul><li><a href="#backup" title="Backup">Backup</a></li><li><a href="#gui-for-windows" title="GUI for windows">GUI for windows</a></li><li><a href="#cross-compile-to-windows" title="Cross compile to windows">Cross compile to windows</a></li><li><a href="#robocopy" title="Robocopy">Robocopy</a></li><li><a href="#open-source-and-free-as-a-beer" title="Open-source and free as a beer">Open-source and free as a beer</a></li></ul></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>backup_for_zeljko</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/backup_for_zeljko/main.rs.html#3-340">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><!-- markdownlint-disable MD041 -->
-<h2 id="backup_for_zeljko"><a class="doc-anchor" href="#backup_for_zeljko">§</a>backup_for_zeljko</h2>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="backup_for_zeljko"><title>backup_for_zeljko - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-aa0817cf.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="backup_for_zeljko" data-themes="" data-resource-suffix="" data-rustdoc-version="1.90.0 (1159e78c4 2025-09-14)" data-channel="1.90.0" data-search-js="search-fa3e91e5.js" data-settings-js="settings-5514c975.js" ><script src="../static.files/storage-68b7e25d.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-eebb9057.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-32bb7600.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../backup_for_zeljko/index.html">backup_<wbr>for_<wbr>zeljko</a><span class="version">2025.1003.839</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#backup_for_zeljko" title="backup_for_zeljko">backup_for_zeljko</a><ul><li><a href="#storage" title="Storage">Storage</a></li><li><a href="#original-location" title="Original location">Original location</a></li><li><a href="#temporary-working-copy" title="Temporary working copy">Temporary working copy</a></li><li><a href="#backup" title="Backup">Backup</a></li><li><a href="#gui-for-windows" title="GUI for windows">GUI for windows</a></li><li><a href="#cross-compile-to-windows" title="Cross compile to windows">Cross compile to windows</a></li><li><a href="#robocopy" title="Robocopy">Robocopy</a></li><li><a href="#open-source-and-free-as-a-beer" title="Open-source and free as a beer">Open-source and free as a beer</a></li></ul></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>backup_for_zeljko</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/backup_for_zeljko/main.rs.html#4-471">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="backup_for_zeljko"><a class="doc-anchor" href="#backup_for_zeljko">§</a>backup_for_zeljko</h2>
 <p><strong>Simple backup program tailored for my friend Željko. Made with rust and iced.</strong><br />
-<em><strong>version: 2025.331.1411 date: 2025-03-31 author: <a href="https://bestia.dev">bestia.dev</a> repository: <a href="https://github.com/bestia-dev/backup_for_zeljko">GitHub</a></strong></em></p>
+<em><strong>version: 2025.1003.839 date: 2025-10-03 author: <a href="https://bestia.dev">bestia.dev</a> repository: <a href="https://github.com/bestia-dev/backup_for_zeljko">GitHub</a></strong></em></p>
 <p><img src="https://img.shields.io/badge/maintained-green" alt="maintained" />
 <img src="https://img.shields.io/badge/ready_for_use-green" alt="ready-for-use" />
 <img src="https://img.shields.io/badge/tutorial-orange" alt="tutorial" />
@@ -12,74 +11,54 @@
 <img src="https://bestia.dev/webpage_hit_counter/get_svg_image/2117022954.svg" alt="backup_for_zeljko" /></p>
 <p>Hashtags: #tutorial #iced #rust #gui<br />
 My projects on GitHub are more like a tutorial than a finished product: <a href="https://github.com/bestia-dev/tutorials_rust_wasm">bestia-dev tutorials</a>.</p>
+<h3 id="storage"><a class="doc-anchor" href="#storage">§</a>Storage</h3>
+<p>My friend needs to store about 1,5TB of files, mostly photos.
+He has 2 laptops with little storage on the internal SSD. We could never use the internal storage to store all of his files. We can use the internal SSD just for “temporary working copies” of some of the files. Eventually we must store the files to a persistent storage.</p>
+<p>2TB should be enough to store all his files.<br />
+He bought a 2TB super tiny and extremely fast Samsung T7 Shield external SSD. This will be the main persistent storage of his “original files”.<br />
+He has also a 2TB old external HDD as the backup drive.</p>
+<h3 id="original-location"><a class="doc-anchor" href="#original-location">§</a>Original location</h3>
+<p>To avoid any confusion, files and folder must have one and only one “original location”.  If anything happens, we know where to find our “original files”. The fast external SSD is great for that. This will be the persistent storage of all his “original files”.</p>
+<p>For some projects it is best to work directly with the “original files”. For example when renaming photos and folders.</p>
+<h3 id="temporary-working-copy"><a class="doc-anchor" href="#temporary-working-copy">§</a>Temporary working copy</h3>
+<p>When working on a project with many small files, first copy the “original files” from the external SSD into the internal “temporary working copy” folder.</p>
+<p>Work for some time on that files.</p>
+<p>When a part of the project is finished, copy the files to their “original location”. That can be done manually with great control. Do this often and with confidence. The “original” will survive, all the rest is just temporary.</p>
+<p>When the project is finished and all the files are copied into “original location” you do not needed the “temporary working files” any more. Delete these files from the “temporary working copy” to avoid any confusion later. The location of the “originals files” must be always in the same place: the external SSD.</p>
 <h3 id="backup"><a class="doc-anchor" href="#backup">§</a>Backup</h3>
-<p>My friend has a laptop with 1TB space for his data.<br />
-Then a super tiny and extremely fast Samsung T7 Shield 2TB external SSD as primary backup.<br />
-And then a big old 2TB external HDD as secondary backup. It is so big that it has it’s own power.</p>
-<p>The difference in storage size makes the backup tricky. Not impossible, but a notch more complicated that he would like.</p>
-<p>I was thinking of using <code>robocopy</code> for the backup, but as always it lacks a feature that I would like to have.
-When the files are deleted on the <code>original</code> disk I want to save these files on the backup disk for possible recovery later. Robocopy just delete them. I know there exists the windows recycle bin, but I don’t want to use that.</p>
-<p>First the program will check what disks are connected. The names of the folders are fixed so I can recognize them easily. There are 3 different backups:</p>
-<ol>
-<li>from the laptop d:\original1 to e:\backup1_of_original1</li>
-<li>from the laptop d:\original1 to f:\backup2_of_original1</li>
-<li>from the primary backup e:\original2 to f:\backup_of_original2</li>
-</ol>
-<p>The files that should be deleted will be moved into a folder named <code>deleted_on_backup_datetime</code>. This can be reviewed and finally manually delete when not needed any more.</p>
-<p>I will use <code>robocopy</code> to list the files to be deleted. Then I will parse the output and move these files.
-Then I will use <code>robocopy</code> to make a “mirror backup”. Sounds easy.</p>
+<p>In the computer world anything can stop working in a second without any warning signs. I witnessed people loosing all their files because a hard disk died. I saw them cry.</p>
+<p>We must always have a backup of the files. It is tedious and it looks superfluous until the disaster strikes.</p>
+<p>I will use <code>robocopy</code> to make the backup or mirror from the external SSD to the old external HDD.</p>
+<p>Never change manually the files on the backup HDD. Only use the robocopy command.</p>
 <h3 id="gui-for-windows"><a class="doc-anchor" href="#gui-for-windows">§</a>GUI for windows</h3>
 <p>My friend is not a computer guy, so I decided that a CLI program in a terminal is not for him. He is comfortable to use GUI programs in Windows.</p>
 <p>I will use the crate <code>iced</code> to create a simple GUI program for Windows. It is “retained mode GUI”.</p>
+<p>First the program will check what disks are connected. The names of the folders are fixed so I can recognize them easily. The letters of the external disks can get mounted differently, therefore there is an exploration phase.</p>
+<ol>
+<li>x:\original_1</li>
+<li>y:\backup_of_original_1</li>
+</ol>
+<p>I will use <code>robocopy</code> to make a “mirror backup”. Sounds easy.</p>
 <h3 id="cross-compile-to-windows"><a class="doc-anchor" href="#cross-compile-to-windows">§</a>Cross compile to windows</h3>
 <p>On my machine I have Windows11 with WSL/Debian. I will cross compile to Windows, copy the exe file with <code>scp</code> and run it on Windows.</p>
 <p>I use <code>cargo-auto</code> for automation of the build process and to commit to GitHub. Just run <code>cargo auto</code> and follow the instructions. To work with GitHub it will need the Personal Access Token from <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a>.</p>
 <p>Copy the exe file from the container ‘crustde’ to win folder. Run in windows git-bash:</p>
-<div class="example-wrap"><pre class="language-bash"><code>scp rustdevuser@crustde:/home/rustdevuser/rustprojects/backup_for_zeljko/target/x86_64-pc-windows-gnu/release/backup_for_zeljko.exe /c/Users/Luciano/rustprojects/backup_for_zeljko/
+<div class="example-wrap"><pre class="language-bash"><code>mkdir -p ~/git-bash/rustprojects/backup_for_zeljko
+cd ~/git-bash/rustprojects/backup_for_zeljko
+scp rustdevuser@crustde:/home/rustdevuser/rustprojects/backup_for_zeljko/target/x86_64-pc-windows-gnu/release/backup_for_zeljko.exe /c/Users/Luciano/git-bash/rustprojects/backup_for_zeljko/
 
 # then run in git-bash
-cd ~/rustprojects/backup_for_zeljko
 ./backup_for_zeljko.exe</code></pre></div><h3 id="robocopy"><a class="doc-anchor" href="#robocopy">§</a>Robocopy</h3>
-<p>Robocopy stands for “Robust copy” in Windows. It is good.<br />
-First I want to list the files that should be deleted.<br />
-Then I will parse the output and move these files instead of delete them.<br />
-In the output I must recognize the files that start with the <code>destination</code> folder.</p>
+<p>Robocopy stands for “Robust copy” in Windows. It is good.</p>
 <div class="example-wrap"><pre class="language-bash"><code>robocopy options
-/L :: List only - don&#39;t copy, timestamp or delete any files.
 /X :: report all eXtra files, not just those selected.
 /FP :: include Full Pathname of files in the output.
 /NS :: No Size - don&#39;t log file sizes.
 /NC :: No Class - don&#39;t log file classes.
 /NDL :: No Directory List - don&#39;t log directory names.
 
-robocopy d:\original1 d:\backup1_of_original1 /MIR /L /X /FP /NS /NC /NDL
-
-The output is terrible to parse:
--------------------------------------------------------------------------------
-   ROBOCOPY     ::     Robust File Copy for Windows
--------------------------------------------------------------------------------
-
-  Started : tuesday, 26. november 2024 11:03:11
-   Source : d:\original1\
-     Dest : d:\backup1_of_original1\
-
-    Files : *.*
-
-  Options : *.* /X /FP /NS /NC /NDL /L /S /E /DCOPY:DA /COPY:DAT /PURGE /MIR /R:1000000 /W:30
-
-------------------------------------------------------------------------------
-
-                                d:\backup1_of_original1\LF2023-12-15 10-46-45 es alta.jpg
-                                d:\original1\LF2023-12-11 11-07-09 Luciano.jpg
-
-------------------------------------------------------------------------------
-
-               Total    Copied   Skipped  Mismatch    FAILED    Extras
-    Dirs :         2         0         2         0         0         0
-   Files :         6         1         5         0         0         2
-   Bytes :   31.83 m    9.06 m   22.77 m         0         0    2.70 m
-   Times :   0:00:00   0:00:00                       0:00:00   0:00:00
-   Ended : tuesday, 26. november 2024 11:03:11</code></pre></div><h3 id="open-source-and-free-as-a-beer"><a class="doc-anchor" href="#open-source-and-free-as-a-beer">§</a>Open-source and free as a beer</h3>
+robocopy d:\original_1 d:\backup_of_original_1 /MIR /X /FP /NS /NC /NDL
+</code></pre></div><h3 id="open-source-and-free-as-a-beer"><a class="doc-anchor" href="#open-source-and-free-as-a-beer">§</a>Open-source and free as a beer</h3>
 <p>My open-source projects are free as a beer (MIT license).<br />
 I just love programming.<br />
 But I need also to drink. If you find my projects and tutorials helpful, please buy me a beer by donating to my <a href="https://paypal.me/LucianoBestia">PayPal</a>.<br />
