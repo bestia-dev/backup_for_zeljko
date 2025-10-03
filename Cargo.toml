@@ -1,6 +1,6 @@
 [package]
 name = "backup_for_zeljko"
-version = "2025.1003.856"
+version = "2025.1003.1123"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2024"

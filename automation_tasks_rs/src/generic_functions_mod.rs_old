@@ -14,7 +14,7 @@ pub use cl::{BLUE, GREEN, RED, RESET, YELLOW};
 /// Initialize tracing to file logs/automation_tasks_rs.log
 ///
 /// The folder logs/ is in .gitignore and will not be committed.
-pub fn tracing_init() -> anyhow::Result<()>{
+pub fn tracing_init() -> anyhow::Result<()> {
     // uncomment this line to enable tracing to file
     // let file_appender = tracing_appender::rolling::daily("logs", "automation_tasks_rs.log");
 
@@ -32,8 +32,7 @@ pub fn tracing_init() -> anyhow::Result<()>{
     // export RUST_LOG=automation_tasks_rs=trace
     // Unset the environment variable RUST_LOG
     // unset RUST_LOG
-    let filter = tracing_subscriber::EnvFilter::from_default_env()
-        .add_directive("iced=error".parse()?);
+    let filter = tracing_subscriber::EnvFilter::from_default_env().add_directive("iced=error".parse()?);
 
     tracing_subscriber::fmt()
         .with_file(true)

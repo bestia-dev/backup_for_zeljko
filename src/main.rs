@@ -4,7 +4,7 @@
 //! # backup_for_zeljko
 //!
 //! **Simple backup program tailored for my friend Željko. Made with rust and iced.**  
-//! ***version: 2025.1003.856 date: 2025-10-03 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
+//! ***version: 2025.1003.1123 date: 2025-10-03 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/backup_for_zeljko)***
 //!
 //!  ![maintained](https://img.shields.io/badge/maintained-green)
 //!  ![ready-for-use](https://img.shields.io/badge/ready_for_use-green)
